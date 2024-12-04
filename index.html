@@ -34,6 +34,19 @@
     .frequency {
       background-color: #f0c918;
     }
+    .nav-link {
+      display: inline-block;
+      margin: 10px;
+      padding: 10px 20px;
+      color: white;
+      text-decoration: none;
+      background-color: #388e3c;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .nav-link:hover {
+      background-color: #2e7d32;
+    }
     .footer {
       margin-top: 30px;
       font-size: 14px;
@@ -41,26 +54,6 @@
     .footer a {
       color: #f0c918;
       text-decoration: none;
-    }
-    #success-image {
-      margin: 20px auto;
-      display: block;
-      max-width: 300px;
-      height: auto;
-      border-radius: 10px;
-    }
-    .library, .remedies {
-      text-align: left;
-      max-width: 600px;
-      margin: 20px auto;
-      padding: 20px;
-      background-color: rgba(0, 0, 0, 0.5);
-      border-radius: 10px;
-      color: white;
-    }
-    .library h2, .remedies h2 {
-      text-align: center;
-      color: #f0c918;
     }
     audio {
       margin: 20px 0;
@@ -75,27 +68,31 @@
     <p id="frequency-text">528Hz - Heal DNA and harmonize</p>
     <button class="button frequency" onclick="generateFrequency()">Generate New Frequency</button>
     <audio id="frequency-audio" controls></audio>
-    <img id="success-image" src="https://via.placeholder.com/300x200.png?text=Success+Image" alt="Success Image">
+    <br>
 
-    <div class="library">
+    <!-- Navigation Links -->
+    <a href="#library" class="nav-link">Healing Library</a>
+    <a href="#remedies" class="nav-link">Homemade Remedies</a>
+    <br>
+
+    <!-- Healing Library Section -->
+    <section id="library" style="text-align: left; margin-top: 20px;">
       <h2>Healing Library</h2>
-      <p><b>Headache:</b> Peppermint tea, essential oil massage, hydration.</p>
-      <p><b>Stress:</b> Meditation, lavender oil, 528Hz frequency.</p>
-      <p><b>Fatigue:</b> Lemon water, deep breathing, sunlight exposure.</p>
-      <!-- Add more ailments and remedies here -->
-    </div>
+      <p><b>Stress:</b> <a href="#stress-details">Learn More</a></p>
+      <p><b>Headache:</b> <a href="#headache-details">Learn More</a></p>
+      <p><b>Fatigue:</b> <a href="#fatigue-details">Learn More</a></p>
+      <p><b>Anxiety:</b> <a href="#anxiety-details">Learn More</a></p>
+      <!-- Add more ailments -->
+    </section>
 
-    <div class="remedies">
+    <!-- Homemade Remedies Section -->
+    <section id="remedies" style="text-align: left; margin-top: 20px;">
       <h2>Homemade Remedies</h2>
-      <p><b>Lemon Ginger Tea:</b></p>
-      <ol>
-        <li>Boil water.</li>
-        <li>Add sliced ginger and lemon juice.</li>
-        <li>Sweeten with honey if desired.</li>
-        <li>Enjoy warm for immune boosting.</li>
-      </ol>
-      <!-- Add more remedies with steps here -->
-    </div>
+      <p><b>Lemon Ginger Tea:</b> <a href="#lemon-ginger-tea">See Recipe</a></p>
+      <p><b>Herbal Salve:</b> <a href="#herbal-salve">See Recipe</a></p>
+      <p><b>Essential Oil Blend:</b> <a href="#essential-oil-blend">See Recipe</a></p>
+      <!-- Add more remedies -->
+    </section>
   </div>
 
   <div class="footer">
@@ -113,53 +110,13 @@
       "I attract success, wealth, and happiness.",
       "I deserve all the good things life has to offer.",
       "Every day, I am growing into the best version of myself.",
-      "Success is my natural state of being.",
-      "I am a magnet for prosperity and abundance.",
-      "I am healthy, wealthy, and wise.",
-      "Positive energy flows to me effortlessly.",
-      "Every challenge is an opportunity for growth.",
-      "I am grateful for all my blessings.",
-      "I am a beacon of love and light.",
-      // Add more affirmations here
+      // Add more affirmations
     ];
 
     const frequencies = [
-      { 
-        hz: "528Hz", 
-        description: "Heal DNA and harmonize", 
-        color: "#388e3c", 
-        audio: "https://example.com/audio/528hz.mp3" 
-      },
-      { 
-        hz: "741Hz", 
-        description: "Cleanse and remove toxins", 
-        color: "#f0c918", 
-        audio: "https://example.com/audio/741hz.mp3" 
-      },
-      { 
-        hz: "639Hz", 
-        description: "Promote harmony in relationships", 
-        color: "#6a1b9a", 
-        audio: "https://example.com/audio/639hz.mp3" 
-      },
-      { 
-        hz: "852Hz", 
-        description: "Awaken intuition", 
-        color: "#d32f2f", 
-        audio: "https://example.com/audio/852hz.mp3" 
-      },
-      { 
-        hz: "396Hz", 
-        description: "Liberate from fear", 
-        color: "#2196f3", 
-        audio: "https://example.com/audio/396hz.mp3" 
-      }
-    ];
-
-    const images = [
-      "https://via.placeholder.com/300x200.png?text=Success+Image",
-      "https://via.placeholder.com/300x200.png?text=Image+2",
-      "https://via.placeholder.com/300x200.png?text=Image+3"
+      { hz: "528Hz", description: "Heal DNA and harmonize", color: "#388e3c" },
+      { hz: "741Hz", description: "Cleanse and remove toxins", color: "#f0c918" },
+      { hz: "396Hz", description: "Liberate from fear", color: "#d32f2f" },
     ];
 
     function generateAffirmation() {
@@ -169,24 +126,15 @@
 
     function generateFrequency() {
       const randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
-      const audio = document.getElementById("frequency-audio");
       document.getElementById("frequency-text").innerText = `${randomFrequency.hz} - ${randomFrequency.description}`;
-      audio.src = randomFrequency.audio;
-      audio.play();
       document.body.style.backgroundColor = randomFrequency.color;
-      const randomImage = images[Math.floor(Math.random() * images.length)];
-      document.getElementById("success-image").src = randomImage;
-
-      // Adjust text color based on background
-      document.body.style.color = randomFrequency.color === "#ffffff" ? "#000000" : "#ffffff";
     }
 
     let colorIndex = 0;
-    const colors = ["#6a1b9a", "#f0c918", "#388e3c", "#2196f3", "#d32f2f", "#ffffff"];
+    const colors = ["#6a1b9a", "#f0c918", "#388e3c", "#d32f2f"];
 
     function cycleColors() {
       document.body.style.backgroundColor = colors[colorIndex];
-      document.body.style.color = colors[colorIndex] === "#ffffff" ? "#000000" : "#ffffff";
       colorIndex = (colorIndex + 1) % colors.length;
       setTimeout(cycleColors, 5000);
     }
