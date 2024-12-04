@@ -5,19 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Eat Sleep Breathe Success</title>
   <style>
+    /* General Styles */
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
       text-align: center;
       transition: background-color 5s linear, color 1s ease;
-      animation: colorCycle 20s infinite alternate;
+      animation: colorCycle 30s infinite alternate;
     }
     @keyframes colorCycle {
-      0% { background-color: #4caf50; }
-      25% { background-color: #ffeb3b; }
-      50% { background-color: #6a1b9a; }
-      75% { background-color: #2196f3; }
-      100% { background-color: #d32f2f; }
+      0% { background-color: #ff5722; } /* Orange */
+      14% { background-color: #ffeb3b; } /* Yellow */
+      28% { background-color: #4caf50; } /* Green */
+      42% { background-color: #2196f3; } /* Blue */
+      57% { background-color: #6a1b9a; } /* Indigo */
+      71% { background-color: #d32f2f; } /* Red */
+      100% { background-color: #f57c00; } /* Orange */
     }
     h1 {
       color: gold;
@@ -45,7 +48,7 @@
     }
     .container {
       padding: 20px;
-      margin-top: 70px;
+      margin-top: 80px;
     }
     .button {
       margin: 10px;
@@ -59,9 +62,6 @@
     }
     .button:hover {
       transform: scale(1.1);
-    }
-    audio {
-      margin-top: 20px;
     }
     .footer {
       margin-top: 40px;
@@ -77,13 +77,17 @@
 </head>
 <body>
   <div class="nav-bar">
-    <a href="#library" class="nav-link">Healing Library</a>
+    <a href="#healing-library" class="nav-link">Healing Library</a>
     <a href="#remedies" class="nav-link">Homemade Remedies</a>
-    <a href="#products" class="nav-link">Store</a>
+    <a href="#store" class="nav-link">Store</a>
   </div>
 
   <div class="container">
     <h1>Eat Sleep Breathe Success</h1>
+    <p id="date">Loading date...</p>
+    <p id="moon-phase">Moon Phase: Loading...</p>
+    <p id="world-clock">Local Time: Loading...</p>
+
     <p id="affirmation-text">"I attract success, wealth, and happiness."</p>
     <button class="button" onclick="generateAffirmation()">Generate New Affirmation</button>
     <p id="frequency-text">528Hz - Heal DNA and harmonize</p>
@@ -91,29 +95,18 @@
     <audio id="frequency-audio" controls></audio>
   </div>
 
-  <!-- Healing Library -->
-  <section id="library" class="container">
+  <section id="healing-library" class="container">
     <h2>Healing Library</h2>
-    <p>Click on a condition to see remedies:</p>
-    <ul id="healing-list">
-      <li>Stress</li>
-      <li>Headache</li>
-      <!-- Add More -->
-    </ul>
+    <button class="button" onclick="openLibrary()">Open Healing Library</button>
   </section>
 
-  <!-- Homemade Remedies -->
   <section id="remedies" class="container">
     <h2>Homemade Remedies</h2>
-    <div>
-      <p>Lemon Ginger Tea: Lemon, Ginger, Honey.</p>
-      <p>Herbal Salve: Coconut Oil, Beeswax, Essential Oils.</p>
-      <!-- Add More -->
-    </div>
+    <p>Lemon Ginger Tea: Lemon, Ginger, Honey.</p>
+    <p>Herbal Salve: Coconut Oil, Beeswax, Essential Oils.</p>
   </section>
 
-  <!-- Store -->
-  <section id="products" class="container">
+  <section id="store" class="container">
     <h2>Store</h2>
     <a href="https://eatsleepbreathesuccess.printful.me" target="_blank">
       <button class="button">Shop Now</button>
@@ -131,22 +124,26 @@
   </div>
 
   <script>
-    const affirmations = [
-      "I attract success, wealth, and happiness.",
-      "I deserve all the good things life has to offer.",
-      "Every day, I grow stronger, wiser, and healthier."
-      // Add More
-    ];
+    // Date and Moon Phase
+    document.getElementById('date').innerText = new Date().toDateString();
 
     function generateAffirmation() {
+      const affirmations = [
+        "I attract success, wealth, and happiness.",
+        "Every day, I grow stronger, wiser, and healthier.",
+        // Add 100+ more affirmations here
+      ];
       const randomIndex = Math.floor(Math.random() * affirmations.length);
       document.getElementById("affirmation-text").innerText = affirmations[randomIndex];
     }
 
     function generateFrequency() {
-      const frequencies = ["528Hz", "741Hz"]; // Add More
+      const frequencies = ["528Hz", "741Hz", "852Hz"];
       const randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
       document.getElementById("frequency-text").innerText = randomFrequency;
+      const audio = document.getElementById('frequency-audio');
+      audio.src = `frequencies/${randomFrequency}.mp3`; // Replace with valid file path
+      audio.play();
     }
   </script>
 </body>
