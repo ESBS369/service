@@ -8,9 +8,10 @@
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #532c77, #f0c918);
+      background-color: #6a1b9a;
       color: white;
       text-align: center;
+      transition: background-color 0.5s ease;
     }
     .container {
       padding: 20px;
@@ -127,7 +128,7 @@
       document.getElementById("frequency-text").innerText = `${randomFrequency.hz} - ${randomFrequency.description}`;
       audio.src = randomFrequency.audio;
       audio.play();
-      document.body.style.background = randomFrequency.color;
+      document.body.style.backgroundColor = randomFrequency.color;
       const randomImage = images[Math.floor(Math.random() * images.length)];
       document.getElementById("success-image").src = randomImage;
     }
