@@ -1,91 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Eat Sleep Breathe Success</title>
-   <style>
-       /* Base Styles */
-       body {
-           background-color: #f4f4f4;
-           color: #000;
-           font-family: Arial, sans-serif;
-           margin: 0;
-           padding: 0;
-       }
-       header {
-           background-color: #000;
-           color: #FFD700;
-           padding: 10px;
-           text-align: center;
-       }
-       nav {
-           background-color: #333;
-           color: #fff;
-           padding: 10px;
-           text-align: center;
-       }
-       nav a {
-           color: #FFD700;
-           text-decoration: none;
-           margin: 0 15px;
-       }
-       nav a:hover {
-           color: #ddd;
-       }
-       footer {
-           background-color: #000;
-           color: #fff;
-           padding: 10px;
-           text-align: center;
-       }
-
-       /* Accent Sections */
-       .affirmations {
-           background-color: #6A0DAD;
-           color: #fff;
-           padding: 20px;
-           border-radius: 10px;
-           margin: 20px auto;
-           max-width: 600px;
-           text-align: center;
-       }
-       .frequencies {
-           background-color: #32CD32;
-           color: #fff;
-           padding: 20px;
-           border-radius: 10px;
-           margin: 20px auto;
-           max-width: 600px;
-           text-align: center;
-       }
-   </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generators for Frequencies and Affirmations</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        .generator {
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 10px;
+            max-width: 500px;
+            color: white;
+        }
+        .affirmation {
+            font-size: 20px;
+            font-weight: bold;
+        }
+        .frequency {
+            font-size: 18px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #444;
+        }
+    </style>
 </head>
 <body>
-   <header>
-       <h1>Eat Sleep Breathe Success</h1>
-   </header>
-   <nav>
-       <a href="#services">Services</a>
-       <a href="#about">About</a>
-       <a href="#contact">Contact</a>
-   </nav>
-   <main>
-       <section id="services">
-           <h2>Our Services</h2>
-           <p>We offer natural remedies, financial literacy courses, and inspirational tools for growth.</p>
-       </section>
-       <div class="affirmations">
-           <h2>Daily Affirmations</h2>
-           <p>“I am capable, resilient, and thriving.”</p>
-       </div>
-       <div class="frequencies">
-           <h2>Healing Frequencies</h2>
-           <p>432Hz - Align your energy and restore balance.</p>
-       </div>
-   </main>
-   <footer>
-       <p>© 2024 Eat Sleep Breathe Success. All Rights Reserved.</p>
-   </footer>
+    <h1>Eat Sleep Breathe Success</h1>
+
+    <div id="affirmation-generator" class="generator" style="background-color: #6A0DAD;">
+        <p class="affirmation">“I am capable, resilient, and thriving.”</p>
+        <button onclick="changeAffirmation()">Generate New Affirmation</button>
+    </div>
+
+    <div id="frequency-generator" class="generator" style="background-color: #32CD32;">
+        <p class="frequency">432Hz - Align your energy and restore balance.</p>
+        <button onclick="changeFrequency()">Generate New Frequency</button>
+    </div>
+
+    <script>
+        // Array of affirmations
+        const affirmations = [
+            "“I am capable, resilient, and thriving.”",
+            "“I attract success, wealth, and happiness.”",
+            "“Every day, I grow stronger and more confident.”",
+            "“I deserve all the good things life has to offer.”",
+            "“I am a magnet for positivity and abundance.”"
+        ];
+
+        // Array of frequencies
+        const frequencies = [
+            "432Hz - Align your energy and restore balance.",
+            "528Hz - Heal and restore your body.",
+            "639Hz - Promote harmony in relationships.",
+            "741Hz - Cleanse and remove toxins.",
+            "852Hz - Awaken intuition and higher consciousness."
+        ];
+
+        // Function to change affirmation
+        function changeAffirmation() {
+            const generator = document.getElementById("affirmation-generator");
+            const affirmationText = document.querySelector("#affirmation-generator .affirmation");
+
+            // Generate random affirmation and color
+            const randomIndex = Math.floor(Math.random() * affirmations.length);
+            affirmationText.textContent = affirmations[randomIndex];
+
+            // Change background color (Purple, Gold, Green)
+            const colors = ["#6A0DAD", "#FFD700", "#32CD32"];
+            generator.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        }
+
+        // Function to change frequency
+        function changeFrequency() {
+            const generator = document.getElementById("frequency-generator");
+            const frequencyText = document.querySelector("#frequency-generator .frequency");
+
+            // Generate random frequency and color
+            const randomIndex = Math.floor(Math.random() * frequencies.length);
+            frequencyText.textContent = frequencies[randomIndex];
+
+            // Change background color (Purple, Gold, Green)
+            const colors = ["#6A0DAD", "#FFD700", "#32CD32"];
+            generator.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        }
+    </script>
 </body>
 </html>
