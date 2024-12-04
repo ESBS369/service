@@ -14,136 +14,147 @@
       animation: colorCycle 30s infinite alternate;
     }
     @keyframes colorCycle {
-      0% { background-color: #ff5722; } /* Orange */
-      14% { background-color: #ffeb3b; } /* Yellow */
-      28% { background-color: #4caf50; } /* Green */
-      42% { background-color: #2196f3; } /* Blue */
-      57% { background-color: #6a1b9a; } /* Indigo */
-      71% { background-color: #d32f2f; } /* Red */
-      100% { background-color: #f57c00; } /* Orange */
+      0% { background-color: #ff5722; color: black; } /* Orange */
+      14% { background-color: #ffeb3b; color: black; } /* Yellow */
+      28% { background-color: #4caf50; color: white; } /* Green */
+      42% { background-color: #2196f3; color: white; } /* Blue */
+      57% { background-color: #6a1b9a; color: white; } /* Indigo */
+      71% { background-color: #d32f2f; color: white; } /* Red */
+      100% { background-color: #f57c00; color: black; } /* Orange */
     }
     h1 {
       color: gold;
       text-shadow: 2px 2px 5px black;
     }
-    .nav-bar {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 10px 0;
-      display: flex;
-      justify-content: center;
-      z-index: 1000;
-    }
-    .nav-link {
-      margin: 0 15px;
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      transition: color 0.3s ease;
-    }
-    .nav-link:hover {
-      color: gold;
-    }
     .container {
       padding: 20px;
-      margin-top: 80px;
     }
-    .button {
+    .section {
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 800px;
+      background: #ffffffcc;
+      border-radius: 15px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+    }
+    .section h2 {
+      color: #333;
+    }
+    .generator {
+      margin: 20px auto;
+      padding: 15px;
+      background: linear-gradient(145deg, #e6e6e6, #ffffff);
+      border-radius: 15px;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+    button {
       margin: 10px;
-      padding: 15px 30px;
-      font-size: 16px;
-      border-radius: 8px;
-      border: none;
-      cursor: pointer;
-      text-shadow: 1px 1px 3px black;
-      transition: transform 0.3s;
-    }
-    .button:hover {
-      transform: scale(1.1);
-    }
-    .footer {
-      margin-top: 40px;
-      font-size: 14px;
+      padding: 10px 20px;
+      background: #4caf50;
       color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      cursor: pointer;
     }
-    .footer a {
-      color: gold;
+    button:hover {
+      background: #45a049;
+    }
+    .link {
+      color: #4caf50;
       text-decoration: none;
-      margin: 0 5px;
+      margin: 10px;
+    }
+    .link:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <div class="nav-bar">
-    <a href="#healing-library" class="nav-link">Healing Library</a>
-    <a href="#remedies" class="nav-link">Homemade Remedies</a>
-    <a href="#store" class="nav-link">Store</a>
-  </div>
-
   <div class="container">
     <h1>Eat Sleep Breathe Success</h1>
-    <p id="date">Loading date...</p>
-    <p id="moon-phase">Moon Phase: Loading...</p>
-    <p id="world-clock">Local Time: Loading...</p>
 
-    <p id="affirmation-text">"I attract success, wealth, and happiness."</p>
-    <button class="button" onclick="generateAffirmation()">Generate New Affirmation</button>
-    <p id="frequency-text">528Hz - Heal DNA and harmonize</p>
-    <button class="button" onclick="generateFrequency()">Generate New Frequency</button>
-    <audio id="frequency-audio" controls></audio>
-  </div>
+    <!-- World Clock and Moon Phase -->
+    <div class="section">
+      <h2>World Time and Moon Phase</h2>
+      <div id="world-clock">Loading local time...</div>
+      <div id="moon-phase">Loading moon phase...</div>
+    </div>
 
-  <section id="healing-library" class="container">
-    <h2>Healing Library</h2>
-    <button class="button" onclick="openLibrary()">Open Healing Library</button>
-  </section>
+    <!-- Horoscope Generator -->
+    <div class="section">
+      <h2>Horoscope Generator</h2>
+      <button onclick="generateHoroscope()">Generate My Horoscope</button>
+      <p id="horoscope-output">Your daily horoscope will appear here.</p>
+    </div>
 
-  <section id="remedies" class="container">
-    <h2>Homemade Remedies</h2>
-    <p>Lemon Ginger Tea: Lemon, Ginger, Honey.</p>
-    <p>Herbal Salve: Coconut Oil, Beeswax, Essential Oils.</p>
-  </section>
+    <!-- Personalized Affirmation Generator -->
+    <div class="section">
+      <h2>Personalized Affirmation Generator</h2>
+      <input type="text" id="name-input" placeholder="Enter your name">
+      <button onclick="generatePersonalizedAffirmation()">Generate Affirmation</button>
+      <p id="personalized-affirmation">Your affirmation will appear here.</p>
+    </div>
 
-  <section id="store" class="container">
-    <h2>Store</h2>
-    <a href="https://eatsleepbreathesuccess.printful.me" target="_blank">
-      <button class="button">Shop Now</button>
-    </a>
-  </section>
+    <!-- Healing Library and Remedies -->
+    <div class="section">
+      <h2>Explore Our Resources</h2>
+      <a href="healing-library.html" class="link">Healing Library</a>
+      <a href="homemade-remedies.html" class="link">Homemade Remedies</a>
+    </div>
 
-  <div class="footer">
-    <p>© 2024 Eat Sleep Breathe Success. All Rights Reserved.</p>
-    <p>Email: info@eatsleepbreathesuccess.com | Phone: 615-270-6849</p>
-    <p>
-      <a href="https://x.com/esbs369" target="_blank">Twitter</a> |
-      <a href="https://tiktok.com/@esbs369" target="_blank">TikTok</a> |
-      <a href="http://www.youtube.com/@eatsleepbreathesuccess661" target="_blank">YouTube</a>
-    </p>
+    <!-- Frequency Player -->
+    <div class="section">
+      <h2>Healing Frequencies</h2>
+      <button onclick="playFrequency()">Generate New Frequency</button>
+      <p id="frequency-display">528Hz - Heal DNA and harmonize</p>
+      <audio id="frequency-player" controls></audio>
+    </div>
   </div>
 
   <script>
-    // Date and Moon Phase
-    document.getElementById('date').innerText = new Date().toDateString();
+    // World Clock and Moon Phase
+    function updateWorldClock() {
+      const now = new Date();
+      document.getElementById("world-clock").innerText = now.toLocaleString();
+    }
+    setInterval(updateWorldClock, 1000);
+    
+    function updateMoonPhase() {
+      document.getElementById("moon-phase").innerText = "Waxing Crescent"; // Placeholder
+    }
+    updateMoonPhase();
 
-    function generateAffirmation() {
-      const affirmations = [
-        "I attract success, wealth, and happiness.",
-        "Every day, I grow stronger, wiser, and healthier.",
-        // Add 100+ more affirmations here
-      ];
-      const randomIndex = Math.floor(Math.random() * affirmations.length);
-      document.getElementById("affirmation-text").innerText = affirmations[randomIndex];
+    // Horoscope Generator
+    const horoscopes = {
+      Aries: "Today is a great day to start new projects.",
+      Taurus: "Focus on relationships and harmony today.",
+      // Add all zodiac signs here
+    };
+    function generateHoroscope() {
+      const signs = Object.keys(horoscopes);
+      const randomSign = signs[Math.floor(Math.random() * signs.length)];
+      document.getElementById("horoscope-output").innerText = horoscopes[randomSign];
     }
 
-    function generateFrequency() {
-      const frequencies = ["528Hz", "741Hz", "852Hz"];
-      const randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
-      document.getElementById("frequency-text").innerText = randomFrequency;
-      const audio = document.getElementById('frequency-audio');
-      audio.src = `frequencies/${randomFrequency}.mp3`; // Replace with valid file path
-      audio.play();
+    // Personalized Affirmation
+    function generatePersonalizedAffirmation() {
+      const name = document.getElementById("name-input").value || "You";
+      document.getElementById("personalized-affirmation").innerText = `${name}, you are destined for greatness!`;
+    }
+
+    // Healing Frequencies
+    const frequencies = [
+      { hz: "528Hz", description: "Heal DNA and harmonize", file: "528Hz.mp3" },
+      { hz: "741Hz", description: "Cleanse and remove toxins", file: "741Hz.mp3" },
+      // Add more frequencies
+    ];
+    function playFrequency() {
+      const randomFreq = frequencies[Math.floor(Math.random() * frequencies.length)];
+      document.getElementById("frequency-display").innerText = `${randomFreq.hz} - ${randomFreq.description}`;
+      const player = document.getElementById("frequency-player");
+      player.src = `frequencies/${randomFreq.file}`;
+      player.play();
     }
   </script>
 </body>
