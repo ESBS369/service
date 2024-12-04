@@ -11,7 +11,7 @@
       background-color: #6a1b9a;
       color: white;
       text-align: center;
-      transition: background-color 0.5s ease;
+      transition: background-color 3s ease;
     }
     .container {
       padding: 20px;
@@ -49,6 +49,14 @@
       height: auto;
       border-radius: 10px;
     }
+    .properties {
+      text-align: left;
+      max-width: 600px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: rgba(0, 0, 0, 0.5);
+      border-radius: 10px;
+    }
     audio {
       margin: 20px 0;
     }
@@ -59,10 +67,20 @@
     <h1>Eat Sleep Breathe Success</h1>
     <p id="affirmation-text">"I attract success, wealth, and happiness."</p>
     <button class="button affirmation" onclick="generateAffirmation()">Generate New Affirmation</button>
-    <p id="frequency-text">741Hz - Cleanse and remove toxins</p>
+    <p id="frequency-text">528Hz - Heal DNA and harmonize</p>
     <button class="button frequency" onclick="generateFrequency()">Generate New Frequency</button>
     <audio id="frequency-audio" controls></audio>
     <img id="success-image" src="https://via.placeholder.com/300x200.png?text=Success+Image" alt="Success Image">
+
+    <div class="properties">
+      <h2>Healing Frequencies</h2>
+      <ul>
+        <li><b>528Hz:</b> DNA repair and positive energy.</li>
+        <li><b>741Hz:</b> Detox and cleanse.</li>
+        <li><b>639Hz:</b> Harmonize relationships.</li>
+        <li><b>852Hz:</b> Intuition awakening.</li>
+      </ul>
+    </div>
   </div>
 
   <div class="footer">
@@ -81,21 +99,22 @@
       "I deserve all the good things life has to offer.",
       "Every day, I am growing into the best version of myself.",
       "Success is my natural state of being.",
-      "I am a magnet for prosperity and abundance."
+      "I am a magnet for prosperity and abundance.",
+      // Add 100+ more affirmations as needed
     ];
 
     const frequencies = [
-      { 
-        hz: "741Hz", 
-        description: "Cleanse and remove toxins", 
-        color: "#f0c918", 
-        audio: "https://example.com/audio/741hz.mp3" 
-      },
       { 
         hz: "528Hz", 
         description: "Heal DNA and harmonize", 
         color: "#388e3c", 
         audio: "https://example.com/audio/528hz.mp3" 
+      },
+      { 
+        hz: "741Hz", 
+        description: "Cleanse and remove toxins", 
+        color: "#f0c918", 
+        audio: "https://example.com/audio/741hz.mp3" 
       },
       { 
         hz: "639Hz", 
@@ -132,6 +151,17 @@
       const randomImage = images[Math.floor(Math.random() * images.length)];
       document.getElementById("success-image").src = randomImage;
     }
+
+    let colorIndex = 0;
+    const colors = ["#6a1b9a", "#f0c918", "#388e3c", "#ffffff"];
+
+    function cycleColors() {
+      document.body.style.backgroundColor = colors[colorIndex];
+      colorIndex = (colorIndex + 1) % colors.length;
+      setTimeout(cycleColors, 5000);
+    }
+
+    cycleColors();
   </script>
 </body>
 </html>
