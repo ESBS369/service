@@ -14,13 +14,13 @@
       animation: colorCycle 30s infinite alternate;
     }
     @keyframes colorCycle {
-      0% { background-color: #ff5722; color: black; } /* Orange */
-      14% { background-color: #ffeb3b; color: black; } /* Yellow */
-      28% { background-color: #4caf50; color: white; } /* Green */
-      42% { background-color: #2196f3; color: white; } /* Blue */
-      57% { background-color: #6a1b9a; color: white; } /* Indigo */
-      71% { background-color: #d32f2f; color: white; } /* Red */
-      100% { background-color: #f57c00; color: black; } /* Orange */
+      0% { background-color: #ff5722; color: black; }
+      14% { background-color: #ffeb3b; color: black; }
+      28% { background-color: #4caf50; color: white; }
+      42% { background-color: #2196f3; color: white; }
+      57% { background-color: #6a1b9a; color: white; }
+      71% { background-color: #d32f2f; color: white; }
+      100% { background-color: #f57c00; color: black; }
     }
     h1 {
       color: gold;
@@ -36,16 +36,12 @@
       background: #ffffffcc;
       border-radius: 15px;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+      animation: fadeIn 2s ease-in-out;
     }
-    .section h2 {
-      color: #333;
-    }
-    .generator {
-      margin: 20px auto;
-      padding: 15px;
-      background: linear-gradient(145deg, #e6e6e6, #ffffff);
-      border-radius: 15px;
-      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
     button {
       margin: 10px;
@@ -56,9 +52,11 @@
       border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
+      transition: transform 0.3s ease;
     }
     button:hover {
       background: #45a049;
+      transform: scale(1.05);
     }
     .link {
       color: #4caf50;
@@ -119,9 +117,16 @@
       document.getElementById("world-clock").innerText = now.toLocaleString();
     }
     setInterval(updateWorldClock, 1000);
-    
-    function updateMoonPhase() {
-      document.getElementById("moon-phase").innerText = "Waxing Crescent"; // Placeholder
+
+    async function updateMoonPhase() {
+      try {
+        const response = await fetch("https://api.farmsense.net/v1/moonphases/");
+        const data = await response.json();
+        const currentPhase = data[0].Phase;
+        document.getElementById("moon-phase").innerText = currentPhase;
+      } catch (error) {
+        document.getElementById("moon-phase").innerText = "Moon phase unavailable.";
+      }
     }
     updateMoonPhase();
 
@@ -129,7 +134,7 @@
     const horoscopes = {
       Aries: "Today is a great day to start new projects.",
       Taurus: "Focus on relationships and harmony today.",
-      // Add all zodiac signs here
+      // Add more signs
     };
     function generateHoroscope() {
       const signs = Object.keys(horoscopes);
@@ -145,15 +150,14 @@
 
     // Healing Frequencies
     const frequencies = [
-      { hz: "528Hz", description: "Heal DNA and harmonize", file: "528Hz.mp3" },
-      { hz: "741Hz", description: "Cleanse and remove toxins", file: "741Hz.mp3" },
-      // Add more frequencies
+      { hz: "528Hz", description: "Heal DNA and harmonize", url: "https://example.com/528Hz.mp3" },
+      { hz: "741Hz", description: "Cleanse and remove toxins", url: "https://example.com/741Hz.mp3" },
     ];
     function playFrequency() {
       const randomFreq = frequencies[Math.floor(Math.random() * frequencies.length)];
       document.getElementById("frequency-display").innerText = `${randomFreq.hz} - ${randomFreq.description}`;
       const player = document.getElementById("frequency-player");
-      player.src = `frequencies/${randomFreq.file}`;
+      player.src = randomFreq.url;
       player.play();
     }
   </script>
