@@ -5,161 +5,131 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Eat Sleep Breathe Success</title>
   <style>
-    /* General Styling */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f0c918, #6a1b9a, #388e3c);
-      color: #fff;
+      background: linear-gradient(135deg, #532c77, #f0c918);
+      color: white;
       text-align: center;
-      background-size: 400% 400%;
-      animation: gradientBackground 15s ease infinite;
     }
-    @keyframes gradientBackground {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+    .container {
+      padding: 20px;
     }
-    header {
-      padding: 1rem;
-      background: rgba(0, 0, 0, 0.7);
+    h1 {
+      margin-top: 20px;
     }
-    header h1 {
-      font-size: 2.5rem;
-      margin: 0;
-    }
-    .generator {
-      margin: 2rem auto;
-      padding: 2rem;
-      max-width: 700px;
-      border-radius: 12px;
-      background: rgba(0, 0, 0, 0.6);
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
-    }
-    .generator button {
-      display: block;
-      margin: 1.5rem auto;
-      padding: 1rem 2rem;
+    .button {
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 18px;
       border: none;
-      font-size: 1.2rem;
       cursor: pointer;
-      border-radius: 8px;
-      color: #fff;
-      transition: transform 0.2s;
+      border-radius: 5px;
+      color: white;
     }
-    .generator button:hover {
-      transform: scale(1.05);
-    }
-    .affirmation-button {
+    .affirmation {
       background-color: #6a1b9a;
     }
-    .frequency-button {
+    .frequency {
       background-color: #f0c918;
     }
-    footer {
-      padding: 1rem;
-      margin-top: 2rem;
-      background: rgba(0, 0, 0, 0.8);
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
     }
-    footer p {
-      margin: 0;
-      font-size: 0.9rem;
+    .footer a {
+      color: #f0c918;
+      text-decoration: none;
     }
-    .visual {
-      margin: 2rem auto;
+    #success-image {
+      margin: 20px auto;
+      display: block;
       max-width: 300px;
+      height: auto;
+      border-radius: 10px;
     }
-    .visual img {
-      width: 100%;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+    audio {
+      margin: 20px 0;
     }
   </style>
 </head>
 <body>
-  <header>
+  <div class="container">
     <h1>Eat Sleep Breathe Success</h1>
-  </header>
-
-  <section class="generator">
-    <h2 id="affirmation">"I attract success, wealth, and happiness."</h2>
-    <button class="affirmation-button" onclick="generateAffirmation()">Generate New Affirmation</button>
-    <h3 id="frequency">741Hz - Cleanse and remove toxins</h3>
-    <button class="frequency-button" onclick="generateFrequency()">Generate New Frequency</button>
-  </section>
-
-  <div class="visual">
-    <img id="visual-image" src="https://via.placeholder.com/300x200?text=Success+Image" alt="Visual representation">
-    <audio id="frequency-audio" controls style="display: none;"></audio>
+    <p id="affirmation-text">"I attract success, wealth, and happiness."</p>
+    <button class="button affirmation" onclick="generateAffirmation()">Generate New Affirmation</button>
+    <p id="frequency-text">741Hz - Cleanse and remove toxins</p>
+    <button class="button frequency" onclick="generateFrequency()">Generate New Frequency</button>
+    <audio id="frequency-audio" controls></audio>
+    <img id="success-image" src="https://via.placeholder.com/300x200.png?text=Success+Image" alt="Success Image">
   </div>
 
-  <footer>
-    <p>&copy; 2024 Eat Sleep Breathe Success. All Rights Reserved.</p>
-    <p>Email: info@eatsleepbreathesuccess.com | Phone: (555) 123-4567</p>
-  </footer>
+  <div class="footer">
+    <p>© 2024 Eat Sleep Breathe Success. All Rights Reserved.</p>
+    <p>Email: info@eatsleepbreathesuccess.com | Phone: 615-270-6849</p>
+    <p>
+      <a href="https://x.com/esbs369" target="_blank">Twitter</a> |
+      <a href="https://tiktok.com/@esbs369" target="_blank">TikTok</a> |
+      <a href="http://www.youtube.com/@eatsleepbreathesuccess661" target="_blank">YouTube</a>
+    </p>
+  </div>
 
   <script>
-    // Affirmations
     const affirmations = [
       "I attract success, wealth, and happiness.",
       "I deserve all the good things life has to offer.",
-      "Every day, I am closer to my dreams.",
-      "My mind is a magnet for positivity and growth."
+      "Every day, I am growing into the best version of myself.",
+      "Success is my natural state of being.",
+      "I am a magnet for prosperity and abundance."
     ];
 
-    // Frequencies with corresponding audio and colors
     const frequencies = [
       { 
         hz: "741Hz", 
         description: "Cleanse and remove toxins", 
         color: "#f0c918", 
-        audio: "https://example.com/audio/741hz.mp3" // Replace with actual link
+        audio: "https://example.com/audio/741hz.mp3" 
       },
       { 
         hz: "528Hz", 
         description: "Heal DNA and harmonize", 
         color: "#388e3c", 
-        audio: "https://example.com/audio/528hz.mp3" // Replace with actual link
+        audio: "https://example.com/audio/528hz.mp3" 
       },
       { 
         hz: "639Hz", 
         description: "Promote harmony in relationships", 
         color: "#6a1b9a", 
-        audio: "https://example.com/audio/639hz.mp3" // Replace with actual link
+        audio: "https://example.com/audio/639hz.mp3" 
       },
       { 
         hz: "852Hz", 
         description: "Awaken intuition", 
-        color: "#fff", 
-        audio: "https://example.com/audio/852hz.mp3" // Replace with actual link
+        color: "#ffffff", 
+        audio: "https://example.com/audio/852hz.mp3" 
       }
     ];
 
     const images = [
-      "https://via.placeholder.com/300x200?text=Image+1",
-      "https://via.placeholder.com/300x200?text=Image+2",
-      "https://via.placeholder.com/300x200?text=Image+3",
-      "https://via.placeholder.com/300x200?text=Image+4"
+      "https://via.placeholder.com/300x200.png?text=Success+Image",
+      "https://via.placeholder.com/300x200.png?text=Image+2",
+      "https://via.placeholder.com/300x200.png?text=Image+3"
     ];
 
-    // Generate new affirmation
     function generateAffirmation() {
-      const randomIndex = Math.floor(Math.random() * affirmations.length);
-      document.getElementById('affirmation').textContent = affirmations[randomIndex];
+      const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+      document.getElementById("affirmation-text").innerText = randomAffirmation;
     }
 
-    // Generate new frequency and play sound
     function generateFrequency() {
-      const randomIndex = Math.floor(Math.random() * frequencies.length);
-      const frequency = frequencies[randomIndex];
-      document.getElementById('frequency').textContent = `${frequency.hz} - ${frequency.description}`;
-      document.querySelector('.frequency-button').style.backgroundColor = frequency.color;
-      document.getElementById('visual-image').src = images[randomIndex];
-      
-      // Play corresponding frequency audio
-      const audio = document.getElementById('frequency-audio');
-      audio.src = frequency.audio;
+      const randomFrequency = frequencies[Math.floor(Math.random() * frequencies.length)];
+      const audio = document.getElementById("frequency-audio");
+      document.getElementById("frequency-text").innerText = `${randomFrequency.hz} - ${randomFrequency.description}`;
+      audio.src = randomFrequency.audio;
       audio.play();
+      document.body.style.background = randomFrequency.color;
+      const randomImage = images[Math.floor(Math.random() * images.length)];
+      document.getElementById("success-image").src = randomImage;
     }
   </script>
 </body>
