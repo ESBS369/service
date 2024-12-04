@@ -11,7 +11,7 @@
       background-color: #6a1b9a;
       color: white;
       text-align: center;
-      transition: background-color 3s ease;
+      transition: background-color 3s ease, color 1s ease;
     }
     .container {
       padding: 20px;
@@ -49,13 +49,18 @@
       height: auto;
       border-radius: 10px;
     }
-    .properties {
+    .library, .remedies {
       text-align: left;
       max-width: 600px;
       margin: 20px auto;
       padding: 20px;
       background-color: rgba(0, 0, 0, 0.5);
       border-radius: 10px;
+      color: white;
+    }
+    .library h2, .remedies h2 {
+      text-align: center;
+      color: #f0c918;
     }
     audio {
       margin: 20px 0;
@@ -72,14 +77,24 @@
     <audio id="frequency-audio" controls></audio>
     <img id="success-image" src="https://via.placeholder.com/300x200.png?text=Success+Image" alt="Success Image">
 
-    <div class="properties">
-      <h2>Healing Frequencies</h2>
-      <ul>
-        <li><b>528Hz:</b> DNA repair and positive energy.</li>
-        <li><b>741Hz:</b> Detox and cleanse.</li>
-        <li><b>639Hz:</b> Harmonize relationships.</li>
-        <li><b>852Hz:</b> Intuition awakening.</li>
-      </ul>
+    <div class="library">
+      <h2>Healing Library</h2>
+      <p><b>Headache:</b> Peppermint tea, essential oil massage, hydration.</p>
+      <p><b>Stress:</b> Meditation, lavender oil, 528Hz frequency.</p>
+      <p><b>Fatigue:</b> Lemon water, deep breathing, sunlight exposure.</p>
+      <!-- Add more ailments and remedies here -->
+    </div>
+
+    <div class="remedies">
+      <h2>Homemade Remedies</h2>
+      <p><b>Lemon Ginger Tea:</b></p>
+      <ol>
+        <li>Boil water.</li>
+        <li>Add sliced ginger and lemon juice.</li>
+        <li>Sweeten with honey if desired.</li>
+        <li>Enjoy warm for immune boosting.</li>
+      </ol>
+      <!-- Add more remedies with steps here -->
     </div>
   </div>
 
@@ -100,7 +115,12 @@
       "Every day, I am growing into the best version of myself.",
       "Success is my natural state of being.",
       "I am a magnet for prosperity and abundance.",
-      // Add 100+ more affirmations as needed
+      "I am healthy, wealthy, and wise.",
+      "Positive energy flows to me effortlessly.",
+      "Every challenge is an opportunity for growth.",
+      "I am grateful for all my blessings.",
+      "I am a beacon of love and light.",
+      // Add more affirmations here
     ];
 
     const frequencies = [
@@ -125,8 +145,14 @@
       { 
         hz: "852Hz", 
         description: "Awaken intuition", 
-        color: "#ffffff", 
+        color: "#d32f2f", 
         audio: "https://example.com/audio/852hz.mp3" 
+      },
+      { 
+        hz: "396Hz", 
+        description: "Liberate from fear", 
+        color: "#2196f3", 
+        audio: "https://example.com/audio/396hz.mp3" 
       }
     ];
 
@@ -150,13 +176,17 @@
       document.body.style.backgroundColor = randomFrequency.color;
       const randomImage = images[Math.floor(Math.random() * images.length)];
       document.getElementById("success-image").src = randomImage;
+
+      // Adjust text color based on background
+      document.body.style.color = randomFrequency.color === "#ffffff" ? "#000000" : "#ffffff";
     }
 
     let colorIndex = 0;
-    const colors = ["#6a1b9a", "#f0c918", "#388e3c", "#ffffff"];
+    const colors = ["#6a1b9a", "#f0c918", "#388e3c", "#2196f3", "#d32f2f", "#ffffff"];
 
     function cycleColors() {
       document.body.style.backgroundColor = colors[colorIndex];
+      document.body.style.color = colors[colorIndex] === "#ffffff" ? "#000000" : "#ffffff";
       colorIndex = (colorIndex + 1) % colors.length;
       setTimeout(cycleColors, 5000);
     }
