@@ -3,56 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Generators for Frequencies and Affirmations</title>
+    <title>Eat Sleep Breathe Success</title>
     <style>
-        /* General Styles */
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 5px 10px;
+            border-radius: 5px;
+        }
+        nav a:hover {
+            background-color: #444;
+        }
+        main {
+            padding: 20px;
+        }
+        section {
+            margin-bottom: 30px;
+        }
+        #generators {
             text-align: center;
         }
         .generator {
-            margin: 20px auto;
             padding: 20px;
+            margin: 10px 0;
             border-radius: 10px;
-            max-width: 500px;
-            color: white;
+            color: #fff;
         }
-        .affirmation {
-            font-size: 20px;
-            font-weight: bold;
-        }
-        .frequency {
-            font-size: 18px;
-        }
-        button {
+        .generator button {
             padding: 10px 20px;
-            font-size: 16px;
-            background-color: #333;
-            color: white;
+            margin-top: 10px;
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            font-size: 16px;
         }
-        button:hover {
-            background-color: #444;
+        #affirmation-generator button {
+            background-color: #6A0DAD;
+            color: #fff;
+        }
+        #frequency-generator button {
+            background-color: #32CD32;
+            color: #fff;
+        }
+        footer {
+            text-align: center;
+            background-color: #000;
+            color: #fff;
+            padding: 10px 0;
         }
     </style>
-</head>
-<body>
-    <h1>Eat Sleep Breathe Success</h1>
-
-    <div id="affirmation-generator" class="generator" style="background-color: #6A0DAD;">
-        <p class="affirmation">“I am capable, resilient, and thriving.”</p>
-        <button onclick="changeAffirmation()">Generate New Affirmation</button>
-    </div>
-
-    <div id="frequency-generator" class="generator" style="background-color: #32CD32;">
-        <p class="frequency">432Hz - Align your energy and restore balance.</p>
-        <button onclick="changeFrequency()">Generate New Frequency</button>
-    </div>
-
     <script>
         // Array of affirmations
         const affirmations = [
@@ -63,13 +79,13 @@
             "“I am a magnet for positivity and abundance.”"
         ];
 
-        // Array of frequencies
+        // Array of frequencies with associated colors
         const frequencies = [
-            "432Hz - Align your energy and restore balance.",
-            "528Hz - Heal and restore your body.",
-            "639Hz - Promote harmony in relationships.",
-            "741Hz - Cleanse and remove toxins.",
-            "852Hz - Awaken intuition and higher consciousness."
+            { text: "432Hz - Align your energy and restore balance.", color: "#6A0DAD" },
+            { text: "528Hz - Heal and restore your body.", color: "#32CD32" },
+            { text: "639Hz - Promote harmony in relationships.", color: "#FFD700" },
+            { text: "741Hz - Cleanse and remove toxins.", color: "#6A0DAD" },
+            { text: "852Hz - Awaken intuition and higher consciousness.", color: "#32CD32" }
         ];
 
         // Function to change affirmation
@@ -77,28 +93,74 @@
             const generator = document.getElementById("affirmation-generator");
             const affirmationText = document.querySelector("#affirmation-generator .affirmation");
 
-            // Generate random affirmation and color
+            // Generate random affirmation
             const randomIndex = Math.floor(Math.random() * affirmations.length);
             affirmationText.textContent = affirmations[randomIndex];
 
-            // Change background color (Purple, Gold, Green)
+            // Change background color randomly (Purple, Gold, Green)
             const colors = ["#6A0DAD", "#FFD700", "#32CD32"];
             generator.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
         }
 
-        // Function to change frequency
+        // Function to change frequency and match color
         function changeFrequency() {
             const generator = document.getElementById("frequency-generator");
             const frequencyText = document.querySelector("#frequency-generator .frequency");
 
-            // Generate random frequency and color
+            // Generate random frequency
             const randomIndex = Math.floor(Math.random() * frequencies.length);
-            frequencyText.textContent = frequencies[randomIndex];
+            const selectedFrequency = frequencies[randomIndex];
+            frequencyText.textContent = selectedFrequency.text;
 
-            // Change background color (Purple, Gold, Green)
-            const colors = ["#6A0DAD", "#FFD700", "#32CD32"];
-            generator.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+            // Set background color to match frequency
+            generator.style.backgroundColor = selectedFrequency.color;
         }
     </script>
+</head>
+<body>
+    <header>
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#services">Services</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="generators">
+            <h1>Eat Sleep Breathe Success</h1>
+
+            <div id="affirmation-generator" class="generator" style="background-color: #6A0DAD;">
+                <p class="affirmation">“I attract success, wealth, and happiness.”</p>
+                <button onclick="changeAffirmation()">Generate New Affirmation</button>
+            </div>
+
+            <div id="frequency-generator" class="generator" style="background-color: #32CD32;">
+                <p class="frequency">432Hz - Align your energy and restore balance.</p>
+                <button onclick="changeFrequency()">Generate New Frequency</button>
+            </div>
+        </section>
+
+        <section id="services">
+            <h2>Our Services</h2>
+            <p>We offer natural remedies, financial literacy courses, and inspirational tools for growth.</p>
+        </section>
+
+        <section id="about">
+            <h2>About Us</h2>
+            <p>Learn more about the vision and mission behind Eat Sleep Breathe Success.</p>
+        </section>
+
+        <section id="contact">
+            <h2>Contact Us</h2>
+            <p>Email: info@eatsleepbreathesuccess.com</p>
+            <p>Phone: (555) 123-4567</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Eat Sleep Breathe Success. All Rights Reserved.</p>
+    </footer>
 </body>
 </html>
