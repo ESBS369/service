@@ -12,15 +12,9 @@
       text-align: center;
       transition: background-color 5s linear, color 1s ease;
       animation: colorCycle 30s infinite alternate;
-    }
-    @keyframes colorCycle {
-      0% { background-color: #ff5722; color: black; }
-      14% { background-color: #ffeb3b; color: black; }
-      28% { background-color: #4caf50; color: white; }
-      42% { background-color: #2196f3; color: white; }
-      57% { background-color: #6a1b9a; color: white; }
-      71% { background-color: #d32f2f; color: white; }
-      100% { background-color: #f57c00; color: black; }
+      background: url('galaxy-pattern.jpg') no-repeat center center fixed;
+      background-size: cover;
+      color: white;
     }
     h1 {
       color: gold;
@@ -33,12 +27,12 @@
       margin: 20px auto;
       padding: 20px;
       max-width: 800px;
-      background: #ffffffcc;
+      background: rgba(0, 0, 0, 0.7);
       border-radius: 15px;
       box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
     }
     .section h2 {
-      color: #333;
+      color: gold;
     }
     button {
       margin: 10px;
@@ -72,17 +66,33 @@
     footer a:hover {
       text-decoration: underline;
     }
+    .background-369 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      z-index: -1;
+      background: repeating-linear-gradient(
+        45deg,
+        rgba(255, 255, 255, 0.05),
+        rgba(255, 255, 255, 0.05) 20px,
+        transparent 20px,
+        transparent 40px
+      );
+    }
   </style>
 </head>
 <body>
+  <div class="background-369"></div>
   <div class="container">
     <h1>Fullfeelment App</h1>
 
     <!-- World Clock and Local Weather -->
     <div class="section">
-      <h2>World Clock and Local Weather</h2>
+      <h2>World Clock and Moon Phase</h2>
       <div id="world-clock">Loading world clock...</div>
-      <div id="local-weather">Loading local weather...</div>
+      <div id="moon-phase">Loading moon phase...</div>
     </div>
 
     <!-- Horoscope Generator -->
@@ -136,33 +146,43 @@
   </footer>
 
   <script>
-    // World Clock and Local Weather
+    // World Clock
     function updateWorldClock() {
-      const now = new Date();
-      document.getElementById("world-clock").innerText = now.toLocaleString();
+      const timeZones = {
+        "New York": "America/New_York",
+        "London": "Europe/London",
+        "Tokyo": "Asia/Tokyo",
+        "Sydney": "Australia/Sydney",
+        "Dubai": "Asia/Dubai",
+      };
+
+      let clockOutput = "";
+      for (const [city, timeZone] of Object.entries(timeZones)) {
+        const now = new Date().toLocaleString("en-US", { timeZone });
+        clockOutput += `<p>${city}: ${now}</p>`;
+      }
+      document.getElementById("world-clock").innerHTML = clockOutput;
     }
     setInterval(updateWorldClock, 1000);
 
-    function fetchLocalWeather() {
-      document.getElementById("local-weather").innerText = "Partly cloudy, 72°F"; // Placeholder, replace with API integration
+    // Moon Phase
+    function updateMoonPhase() {
+      const moonPhases = [
+        "New Moon", "Waxing Crescent", "First Quarter",
+        "Waxing Gibbous", "Full Moon", "Waning Gibbous",
+        "Last Quarter", "Waning Crescent"
+      ];
+      const today = new Date();
+      const day = today.getDate();
+      const moonIndex = day % moonPhases.length;
+      document.getElementById("moon-phase").innerText = `Moon Phase: ${moonPhases[moonIndex]}`;
     }
-    fetchLocalWeather();
+    updateMoonPhase();
 
     // Horoscope Generator
     const horoscopes = {
-      Aries: [
-        "Start a new project today.",
-        "Focus on your leadership skills.",
-        "Patience will pay off."
-        // Add 97 more horoscopes
-      ],
-      Taurus: [
-        "Seek balance in relationships.",
-        "A creative opportunity is near.",
-        "Stay grounded and focused."
-        // Add 97 more horoscopes
-      ],
-      // Add entries for all zodiac signs
+      Aries: ["Start a new project today.", "Focus on your leadership skills."],
+      // Add more signs and entries here
     };
     function generateHoroscope() {
       const sign = document.getElementById("sun-sign").value;
@@ -174,12 +194,8 @@
       document.getElementById("horoscope-output").innerText = horoscopes[sign][randomIndex];
     }
 
-    // Personalized Affirmation
-    const affirmations = [
-      "You are capable of achieving great things.",
-      "You deserve happiness and success.",
-      // Add 98 more affirmations
-    ];
+    // Personalized Affirmations
+    const affirmations = ["You are capable of greatness!", "You are strong and resilient."];
     function generatePersonalizedAffirmation() {
       const name = document.getElementById("name-input").value || "You";
       const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
@@ -189,9 +205,7 @@
     // Healing Frequencies
     const frequencies = [
       { hz: "528Hz", description: "Heal DNA and harmonize", file: "528Hz.mp3" },
-      { hz: "741Hz", description: "Cleanse and remove toxins", file: "741Hz.mp3" },
-      { hz: "396Hz", description: "Liberate guilt and fear", file: "396Hz.mp3" },
-      // Add 97 more frequencies
+      { hz: "741Hz", description: "Cleanse and remove toxins", file: "741Hz.mp3" }
     ];
     function playFrequency() {
       const randomFreq = frequencies[Math.floor(Math.random() * frequencies.length)];
@@ -201,11 +215,8 @@
       player.play();
     }
 
-    // Health Facts Generator
-    const healthFacts = [
-      "Drinking water before meals can aid digestion and reduce overeating.",
-      // Add 99 more health facts
-    ];
+    // Health Facts
+    const healthFacts = ["Drink water daily.", "Stretch for 10 minutes every day."];
     function generateFact() {
       const randomIndex = Math.floor(Math.random() * healthFacts.length);
       document.getElementById("fact-box").textContent = healthFacts[randomIndex];
