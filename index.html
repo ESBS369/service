@@ -10,23 +10,19 @@
       margin: 0;
       font-family: 'Arial', sans-serif;
       text-align: center;
-      overflow-y: auto; /* Fix scrolling */
+      overflow-y: auto;
       position: relative;
+      animation: colorCycle 30s infinite alternate;
+      background: radial-gradient(circle, rgba(0,0,0,0.8), rgba(0,0,0,0.5));
     }
 
     @keyframes colorCycle {
-      0% { background-color: #ff5722; color: black; } /* Orange */
-      20% { background-color: #ffeb3b; color: black; } /* Yellow */
-      40% { background-color: #4caf50; color: white; } /* Green */
-      60% { background-color: #2196f3; color: white; } /* Blue */
-      80% { background-color: #6a1b9a; color: white; } /* Indigo */
-      100% { background-color: #d32f2f; color: white; } /* Red */
-    }
-
-    body {
-      animation: colorCycle 30s infinite alternate;
-      background: radial-gradient(circle, rgba(0,0,0,0.8), rgba(0,0,0,0.5));
-      position: relative;
+      0% { background-color: #ff5722; color: black; }
+      20% { background-color: #ffeb3b; color: black; }
+      40% { background-color: #4caf50; color: white; }
+      60% { background-color: #2196f3; color: white; }
+      80% { background-color: #6a1b9a; color: white; }
+      100% { background-color: #d32f2f; color: white; }
     }
 
     .background-369 {
@@ -49,7 +45,6 @@
       font-weight: bold;
       color: rgba(255, 255, 255, 0.1);
       transform: rotate(45deg);
-      position: absolute;
     }
 
     h1 {
@@ -74,7 +69,7 @@
       color: gold;
     }
 
-    button {
+    button, select {
       margin: 10px;
       padding: 10px 20px;
       background: #4caf50;
@@ -85,18 +80,8 @@
       cursor: pointer;
     }
 
-    button:hover {
+    button:hover, select:hover {
       background: #45a049;
-    }
-
-    .link {
-      color: #4caf50;
-      text-decoration: none;
-      margin: 10px;
-    }
-
-    .link:hover {
-      text-decoration: underline;
     }
 
     footer {
@@ -113,18 +98,14 @@
       text-decoration: underline;
     }
 
-    .world-globe {
-      width: 400px;
-      height: 400px;
+    .world-globe, .ai-moon {
       margin: 0 auto;
+      width: 300px;
+      height: 300px;
     }
 
     .ai-moon {
-      width: 300px;
-      height: 300px;
       border-radius: 50%;
-      background: radial-gradient(circle, #f8f9fa, #cfd9df, #9e9e9e, #4f4f4f);
-      margin: 20px auto;
       box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
     }
   </style>
@@ -137,12 +118,16 @@
   <div class="container">
     <h1>Fullfeelment App</h1>
 
-    <!-- World Clock and AI Moon -->
+    <!-- World Clock -->
     <div class="section">
       <h2>World Clock</h2>
       <div id="world-clock-globe" class="world-globe"></div>
-      <h2>Live AI Moon</h2>
-      <div class="ai-moon" id="ai-moon"></div>
+    </div>
+
+    <!-- Moon Phase -->
+    <div class="section">
+      <div id="ai-moon" class="ai-moon"></div>
+      <p id="moon-phase-name">Loading moon phase...</p>
     </div>
 
     <!-- Horoscope Generator -->
@@ -170,9 +155,28 @@
     <!-- Healing Frequencies -->
     <div class="section">
       <h2>Healing Frequencies</h2>
-      <button onclick="playFrequency()">Generate New Frequency</button>
-      <p id="frequency-display">528Hz - Heal DNA and harmonize</p>
+      <select id="frequency-select">
+        <option value="528Hz.mp3">528Hz - Heal DNA</option>
+        <option value="741Hz.mp3">741Hz - Cleanse</option>
+        <!-- Add more frequencies -->
+      </select>
+      <button onclick="playFrequency()">Play Frequency</button>
       <audio id="frequency-player" controls></audio>
+    </div>
+
+    <!-- Health Facts -->
+    <div class="section">
+      <h2>Health Facts Generator</h2>
+      <div id="fact-box">Click the button to see a random health fact!</div>
+      <button onclick="generateFact()">Get a Health Fact</button>
+    </div>
+
+    <!-- Affirmations -->
+    <div class="section">
+      <h2>Affirmations Generator</h2>
+      <input type="text" id="name-input" placeholder="Enter your name">
+      <button onclick="generateAffirmation()">Generate Affirmation</button>
+      <p id="affirmation-output">Your affirmation will appear here.</p>
     </div>
   </div>
 
@@ -182,40 +186,71 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
-    // World Clock Globe
+    // Interactive Globe
     function initWorldClock() {
       const scene = new THREE.Scene();
       const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
       const renderer = new THREE.WebGLRenderer();
-      renderer.setSize(400, 400);
+      renderer.setSize(300, 300);
       document.getElementById("world-clock-globe").appendChild(renderer.domElement);
 
       const geometry = new THREE.SphereGeometry(1, 32, 32);
       const material = new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load('https://i.imgur.com/dsfsEFp.jpg')
+        map: new THREE.TextureLoader().load('https://i.imgur.com/Nzry1.jpg') // World map texture
       });
       const globe = new THREE.Mesh(geometry, material);
       scene.add(globe);
 
       camera.position.z = 3;
 
+      const controls = new THREE.OrbitControls(camera, renderer.domElement);
+
       function animate() {
         requestAnimationFrame(animate);
-        globe.rotation.y += 0.01;
         renderer.render(scene, camera);
       }
       animate();
     }
     initWorldClock();
 
-    // Live AI Moon
-    function updateMoon() {
-      const moon = document.getElementById("ai-moon");
-      const phase = ["Full Moon", "Waxing", "Waning", "New Moon"];
-      const randomPhase = phase[Math.floor(Math.random() * phase.length)];
-      moon.setAttribute("data-phase", randomPhase);
+    // Moon Phase
+    function updateMoonPhase() {
+      const moonPhases = [
+        { phase: "New Moon", color: "darkgray" },
+        { phase: "First Quarter", color: "lightgray" },
+        { phase: "Full Moon", color: "white" },
+        { phase: "Last Quarter", color: "silver" }
+      ];
+      const phaseIndex = new Date().getDate() % moonPhases.length;
+      const moon = moonPhases[phaseIndex];
+
+      document.getElementById("ai-moon").style.background = moon.color;
+      document.getElementById("moon-phase-name").innerText = moon.phase;
     }
-    updateMoon();
+    updateMoonPhase();
+
+    // Affirmations
+    const affirmations = ["You are capable!", "You are strong!"];
+    function generateAffirmation() {
+      const name = document.getElementById("name-input").value || "You";
+      const affirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+      document.getElementById("affirmation-output").innerText = `${name}, ${affirmation}`;
+    }
+
+    // Frequencies
+    function playFrequency() {
+      const selectedFrequency = document.getElementById("frequency-select").value;
+      const player = document.getElementById("frequency-player");
+      player.src = `frequencies/${selectedFrequency}`;
+      player.play();
+    }
+
+    // Health Facts
+    const healthFacts = ["Drink water.", "Stretch daily."];
+    function generateFact() {
+      const fact = healthFacts[Math.floor(Math.random() * healthFacts.length)];
+      document.getElementById("fact-box").innerText = fact;
+    }
   </script>
 </body>
 </html>
