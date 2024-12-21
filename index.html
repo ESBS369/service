@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Eat Sleep Breathe Success</title>
+  <title>Fullfeelment App</title>
   <style>
     /* General Styles */
     body {
@@ -14,13 +14,13 @@
       animation: colorCycle 30s infinite alternate;
     }
     @keyframes colorCycle {
-      0% { background-color: #ff5722; color: black; } /* Orange */
-      14% { background-color: #ffeb3b; color: black; } /* Yellow */
-      28% { background-color: #4caf50; color: white; } /* Green */
-      42% { background-color: #2196f3; color: white; } /* Blue */
-      57% { background-color: #6a1b9a; color: white; } /* Indigo */
-      71% { background-color: #d32f2f; color: white; } /* Red */
-      100% { background-color: #f57c00; color: black; } /* Orange */
+      0% { background-color: #ff5722; color: black; }
+      14% { background-color: #ffeb3b; color: black; }
+      28% { background-color: #4caf50; color: white; }
+      42% { background-color: #2196f3; color: white; }
+      57% { background-color: #6a1b9a; color: white; }
+      71% { background-color: #d32f2f; color: white; }
+      100% { background-color: #f57c00; color: black; }
     }
     h1 {
       color: gold;
@@ -39,13 +39,6 @@
     }
     .section h2 {
       color: #333;
-    }
-    .generator {
-      margin: 20px auto;
-      padding: 15px;
-      background: linear-gradient(145deg, #e6e6e6, #ffffff);
-      border-radius: 15px;
-      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
     }
     button {
       margin: 10px;
@@ -68,23 +61,49 @@
     .link:hover {
       text-decoration: underline;
     }
+    footer {
+      margin-top: 30px;
+      font-size: 14px;
+    }
+    footer a {
+      color: #2196f3;
+      text-decoration: none;
+    }
+    footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>Eat Sleep Breathe Success</h1>
+    <h1>Fullfeelment App</h1>
 
-    <!-- World Clock and Moon Phase -->
+    <!-- World Clock and Local Weather -->
     <div class="section">
-      <h2>World Time and Moon Phase</h2>
-      <div id="world-clock">Loading local time...</div>
-      <div id="moon-phase">Loading moon phase...</div>
+      <h2>World Clock and Local Weather</h2>
+      <div id="world-clock">Loading world clock...</div>
+      <div id="local-weather">Loading local weather...</div>
     </div>
 
     <!-- Horoscope Generator -->
     <div class="section">
       <h2>Horoscope Generator</h2>
-      <button onclick="generateHoroscope()">Generate My Horoscope</button>
+      <select id="sun-sign">
+        <option value="" disabled selected>Select your sun sign</option>
+        <option value="Aries">Aries</option>
+        <option value="Taurus">Taurus</option>
+        <option value="Gemini">Gemini</option>
+        <option value="Cancer">Cancer</option>
+        <option value="Leo">Leo</option>
+        <option value="Virgo">Virgo</option>
+        <option value="Libra">Libra</option>
+        <option value="Scorpio">Scorpio</option>
+        <option value="Sagittarius">Sagittarius</option>
+        <option value="Capricorn">Capricorn</option>
+        <option value="Aquarius">Aquarius</option>
+        <option value="Pisces">Pisces</option>
+      </select>
+      <button onclick="generateHoroscope()">Generate Horoscope</button>
       <p id="horoscope-output">Your daily horoscope will appear here.</p>
     </div>
 
@@ -96,14 +115,7 @@
       <p id="personalized-affirmation">Your affirmation will appear here.</p>
     </div>
 
-    <!-- Healing Library and Remedies -->
-    <div class="section">
-      <h2>Explore Our Resources</h2>
-      <a href="healing-library.html" class="link">Healing Library</a>
-      <a href="homemade-remedies.html" class="link">Homemade Remedies</a>
-    </div>
-
-    <!-- Frequency Player -->
+    <!-- Healing Frequencies -->
     <div class="section">
       <h2>Healing Frequencies</h2>
       <button onclick="playFrequency()">Generate New Frequency</button>
@@ -119,45 +131,54 @@
     </div>
   </div>
 
+  <footer>
+    <p>Made by <a href="https://eatsleepbreathesuccess.com" target="_blank">EatSleepBreatheSuccess.com</a></p>
+  </footer>
+
   <script>
-    // World Clock and Moon Phase
+    // World Clock and Local Weather
     function updateWorldClock() {
       const now = new Date();
       document.getElementById("world-clock").innerText = now.toLocaleString();
     }
     setInterval(updateWorldClock, 1000);
 
-    function updateMoonPhase() {
-      document.getElementById("moon-phase").innerText = "Waxing Crescent"; // Placeholder
+    function fetchLocalWeather() {
+      document.getElementById("local-weather").innerText = "Partly cloudy, 72°F"; // Placeholder, replace with API integration
     }
-    updateMoonPhase();
+    fetchLocalWeather();
 
     // Horoscope Generator
     const horoscopes = {
-      Aries: "Today is a great day to start new projects.",
-      Taurus: "Focus on relationships and harmony today.",
-      Gemini: "Exciting opportunities await you.",
-      Cancer: "Embrace your emotional strength.",
-      Leo: "Show your confidence and shine today.",
-      Virgo: "Organize your thoughts for clarity.",
-      Libra: "Seek balance in your decisions.",
-      Scorpio: "Tap into your passion and determination.",
-      Sagittarius: "Adventure is on the horizon.",
-      Capricorn: "Hard work will pay off.",
-      Aquarius: "Your creativity will lead the way.",
-      Pisces: "Trust your intuition."
+      Aries: [
+        "Start a new project today.",
+        "Focus on your leadership skills.",
+        "Patience will pay off."
+        // Add 97 more horoscopes
+      ],
+      Taurus: [
+        "Seek balance in relationships.",
+        "A creative opportunity is near.",
+        "Stay grounded and focused."
+        // Add 97 more horoscopes
+      ],
+      // Add entries for all zodiac signs
     };
     function generateHoroscope() {
-      const signs = Object.keys(horoscopes);
-      const randomSign = signs[Math.floor(Math.random() * signs.length)];
-      document.getElementById("horoscope-output").innerText = horoscopes[randomSign];
+      const sign = document.getElementById("sun-sign").value;
+      if (!sign) {
+        alert("Please select your sun sign.");
+        return;
+      }
+      const randomIndex = Math.floor(Math.random() * horoscopes[sign].length);
+      document.getElementById("horoscope-output").innerText = horoscopes[sign][randomIndex];
     }
 
-    // Personalized Affirmation Generator
+    // Personalized Affirmation
     const affirmations = [
       "You are capable of achieving great things.",
       "You deserve happiness and success.",
-      // Add more affirmations here to reach 100
+      // Add 98 more affirmations
     ];
     function generatePersonalizedAffirmation() {
       const name = document.getElementById("name-input").value || "You";
@@ -169,7 +190,8 @@
     const frequencies = [
       { hz: "528Hz", description: "Heal DNA and harmonize", file: "528Hz.mp3" },
       { hz: "741Hz", description: "Cleanse and remove toxins", file: "741Hz.mp3" },
-      // Add more frequencies
+      { hz: "396Hz", description: "Liberate guilt and fear", file: "396Hz.mp3" },
+      // Add 97 more frequencies
     ];
     function playFrequency() {
       const randomFreq = frequencies[Math.floor(Math.random() * frequencies.length)];
@@ -182,7 +204,7 @@
     // Health Facts Generator
     const healthFacts = [
       "Drinking water before meals can aid digestion and reduce overeating.",
-      // Add 100 health facts here
+      // Add 99 more health facts
     ];
     function generateFact() {
       const randomIndex = Math.floor(Math.random() * healthFacts.length);
@@ -190,4 +212,4 @@
     }
   </script>
 </body>
-</html> 
+</html>
