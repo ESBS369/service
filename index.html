@@ -10,10 +10,8 @@
       margin: 0;
       font-family: 'Arial', sans-serif;
       text-align: center;
-      transition: background-color 5s linear, color 1s ease;
-      animation: colorCycle 30s infinite alternate;
+      overflow-y: auto; /* Fix scrolling */
       position: relative;
-      overflow: hidden;
     }
 
     @keyframes colorCycle {
@@ -23,6 +21,35 @@
       60% { background-color: #2196f3; color: white; } /* Blue */
       80% { background-color: #6a1b9a; color: white; } /* Indigo */
       100% { background-color: #d32f2f; color: white; } /* Red */
+    }
+
+    body {
+      animation: colorCycle 30s infinite alternate;
+      background: radial-gradient(circle, rgba(0,0,0,0.8), rgba(0,0,0,0.5));
+      position: relative;
+    }
+
+    .background-369 {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      opacity: 0.2;
+      pointer-events: none;
+    }
+
+    .background-369 span {
+      font-size: 2rem;
+      font-weight: bold;
+      color: rgba(255, 255, 255, 0.1);
+      transform: rotate(45deg);
+      position: absolute;
     }
 
     h1 {
@@ -86,62 +113,23 @@
       text-decoration: underline;
     }
 
-    .background-cosmic {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      background: radial-gradient(circle, rgba(0,0,0,0.9), rgba(0,0,0,0.7)), url('galaxy-pattern.jpg');
-      background-size: cover;
-      opacity: 0.8;
-    }
-
-    .background-369 {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -2;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      align-items: center;
-      opacity: 0.3;
-    }
-
-    .background-369 span {
-      font-size: 5rem;
-      font-weight: bold;
-      color: rgba(255, 255, 255, 0.2);
-      transform: rotate(45deg);
-    }
-
     .world-globe {
-      margin: 0 auto;
       width: 400px;
       height: 400px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #1b1b2f, #162447);
-      box-shadow: 0 0 30px rgba(0, 0, 0, 0.8);
-      position: relative;
+      margin: 0 auto;
     }
 
-    .world-globe:before {
-      content: "🌍";
-      font-size: 200px;
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: rgba(255, 255, 255, 0.2);
+    .ai-moon {
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, #f8f9fa, #cfd9df, #9e9e9e, #4f4f4f);
+      margin: 20px auto;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
     }
   </style>
 </head>
 <body>
-  <div class="background-cosmic"></div>
   <div class="background-369">
     <span>3</span><span>6</span><span>9</span><span>3</span><span>6</span><span>9</span>
   </div>
@@ -149,13 +137,12 @@
   <div class="container">
     <h1>Fullfeelment App</h1>
 
-    <!-- World Clock and Moon Phase -->
+    <!-- World Clock and AI Moon -->
     <div class="section">
-      <h2>World Clock and Moon Phase</h2>
-      <div class="world-globe" id="world-clock-globe">
-        <!-- The globe will show times visually here -->
-      </div>
-      <div id="moon-phase">Loading moon phase...</div>
+      <h2>World Clock</h2>
+      <div id="world-clock-globe" class="world-globe"></div>
+      <h2>Live AI Moon</h2>
+      <div class="ai-moon" id="ai-moon"></div>
     </div>
 
     <!-- Horoscope Generator -->
@@ -180,14 +167,6 @@
       <p id="horoscope-output">Your daily horoscope will appear here.</p>
     </div>
 
-    <!-- Personalized Affirmation Generator -->
-    <div class="section">
-      <h2>Personalized Affirmation Generator</h2>
-      <input type="text" id="name-input" placeholder="Enter your name">
-      <button onclick="generatePersonalizedAffirmation()">Generate Affirmation</button>
-      <p id="personalized-affirmation">Your affirmation will appear here.</p>
-    </div>
-
     <!-- Healing Frequencies -->
     <div class="section">
       <h2>Healing Frequencies</h2>
@@ -195,56 +174,48 @@
       <p id="frequency-display">528Hz - Heal DNA and harmonize</p>
       <audio id="frequency-player" controls></audio>
     </div>
-
-    <!-- Health Facts Generator -->
-    <div class="section">
-      <h2>Health Facts Generator</h2>
-      <div id="fact-box">Click the button to see a random health fact!</div>
-      <button onclick="generateFact()">Get a Health Fact</button>
-    </div>
   </div>
 
   <footer>
     <p>Made by <a href="https://eatsleepbreathesuccess.com" target="_blank">EatSleepBreatheSuccess.com</a></p>
   </footer>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
-    // World Clock with Time Zones
-    function updateWorldClock() {
-      // Add functionality for a dynamic globe with times (requires a 3D library like Three.js)
-      document.getElementById("world-clock-globe").innerHTML = "Interactive globe coming soon!";
+    // World Clock Globe
+    function initWorldClock() {
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer();
+      renderer.setSize(400, 400);
+      document.getElementById("world-clock-globe").appendChild(renderer.domElement);
+
+      const geometry = new THREE.SphereGeometry(1, 32, 32);
+      const material = new THREE.MeshBasicMaterial({
+        map: new THREE.TextureLoader().load('https://i.imgur.com/dsfsEFp.jpg')
+      });
+      const globe = new THREE.Mesh(geometry, material);
+      scene.add(globe);
+
+      camera.position.z = 3;
+
+      function animate() {
+        requestAnimationFrame(animate);
+        globe.rotation.y += 0.01;
+        renderer.render(scene, camera);
+      }
+      animate();
     }
-    updateWorldClock();
+    initWorldClock();
 
-    // Moon Phase
-    function updateMoonPhase() {
-      const moonPhases = [
-        "New Moon", "Waxing Crescent", "First Quarter",
-        "Waxing Gibbous", "Full Moon", "Waning Gibbous",
-        "Last Quarter", "Waning Crescent"
-      ];
-      const today = new Date();
-      const day = today.getDate();
-      const moonIndex = day % moonPhases.length;
-      document.getElementById("moon-phase").innerText = `Moon Phase: ${moonPhases[moonIndex]}`;
+    // Live AI Moon
+    function updateMoon() {
+      const moon = document.getElementById("ai-moon");
+      const phase = ["Full Moon", "Waxing", "Waning", "New Moon"];
+      const randomPhase = phase[Math.floor(Math.random() * phase.length)];
+      moon.setAttribute("data-phase", randomPhase);
     }
-    updateMoonPhase();
-
-    // Horoscope Generator
-    const horoscopes = { Aries: ["Start something new."] }; // Expand as needed
-    function generateHoroscope() { /* Same as before */ }
-
-    // Personalized Affirmations
-    const affirmations = ["You are capable!"]; // Add more
-    function generatePersonalizedAffirmation() { /* Same as before */ }
-
-    // Healing Frequencies
-    const frequencies = [{ hz: "528Hz", description: "Heal DNA", file: "528Hz.mp3" }];
-    function playFrequency() { /* Same as before */ }
-
-    // Health Facts
-    const healthFacts = ["Drink water."]; // Add more
-    function generateFact() { /* Same as before */ }
+    updateMoon();
   </script>
 </body>
 </html>
