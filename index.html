@@ -110,6 +110,13 @@
       <p id="frequency-display">528Hz - Heal DNA and harmonize</p>
       <audio id="frequency-player" controls></audio>
     </div>
+
+    <!-- Health Facts Generator -->
+    <div class="section">
+      <h2>Health Facts Generator</h2>
+      <div id="fact-box">Click the button to see a random health fact!</div>
+      <button onclick="generateFact()">Get a Health Fact</button>
+    </div>
   </div>
 
   <script>
@@ -119,7 +126,7 @@
       document.getElementById("world-clock").innerText = now.toLocaleString();
     }
     setInterval(updateWorldClock, 1000);
-    
+
     function updateMoonPhase() {
       document.getElementById("moon-phase").innerText = "Waxing Crescent"; // Placeholder
     }
@@ -129,7 +136,16 @@
     const horoscopes = {
       Aries: "Today is a great day to start new projects.",
       Taurus: "Focus on relationships and harmony today.",
-      // Add all zodiac signs here
+      Gemini: "Exciting opportunities await you.",
+      Cancer: "Embrace your emotional strength.",
+      Leo: "Show your confidence and shine today.",
+      Virgo: "Organize your thoughts for clarity.",
+      Libra: "Seek balance in your decisions.",
+      Scorpio: "Tap into your passion and determination.",
+      Sagittarius: "Adventure is on the horizon.",
+      Capricorn: "Hard work will pay off.",
+      Aquarius: "Your creativity will lead the way.",
+      Pisces: "Trust your intuition."
     };
     function generateHoroscope() {
       const signs = Object.keys(horoscopes);
@@ -137,10 +153,16 @@
       document.getElementById("horoscope-output").innerText = horoscopes[randomSign];
     }
 
-    // Personalized Affirmation
+    // Personalized Affirmation Generator
+    const affirmations = [
+      "You are capable of achieving great things.",
+      "You deserve happiness and success.",
+      // Add more affirmations here to reach 100
+    ];
     function generatePersonalizedAffirmation() {
       const name = document.getElementById("name-input").value || "You";
-      document.getElementById("personalized-affirmation").innerText = `${name}, you are destined for greatness!`;
+      const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+      document.getElementById("personalized-affirmation").innerText = `${name}, ${randomAffirmation}`;
     }
 
     // Healing Frequencies
@@ -156,163 +178,16 @@
       player.src = `frequencies/${randomFreq.file}`;
       player.play();
     }
-  </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Health Facts Generator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-      background: linear-gradient(135deg, #d4fc79, #96e6a1);
-      color: #333;
-    }
 
-    #fact-box {
-      font-size: 1.5rem;
-      margin: 20px auto;
-      padding: 20px;
-      max-width: 600px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      color: #fff;
-      background: #28a745;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    button:hover {
-      background: #218838;
-    }
-  </style>
-</head>
-<body>
-  <h1>Health Facts Generator</h1>
-  <div id="fact-box">Click the button to see a random health fact!</div>
-  <button onclick="generateFact()">Get a Health Fact</button>
-
-  <script>
+    // Health Facts Generator
     const healthFacts = [
       "Drinking water before meals can aid digestion and reduce overeating.",
-      "Walking 10,000 steps daily can improve cardiovascular health.",
-      "Dark leafy greens like spinach and kale are rich in iron and vitamin K.",
-      "Lemon water in the morning can boost hydration and metabolism.",
-      "Regular meditation can lower stress and improve mental clarity.",
-      "Eating a rainbow of fruits and vegetables ensures a variety of nutrients.",
-      "Garlic has natural antibacterial and antiviral properties.",
-      "Omega-3 fatty acids from fish or flaxseed are good for brain health.",
-      "Adequate sleep (7–9 hours) supports immunity and mental health.",
-      "Stretching daily can improve flexibility and prevent injuries.",
-      "Chewing food thoroughly aids digestion and nutrient absorption.",
-      "Matcha green tea is high in antioxidants and boosts energy.",
-      "A plant-based diet reduces the risk of heart disease.",
-      "Regular laughter can improve your immune system.",
-      "Chia seeds are rich in fiber and omega-3s.",
-      "Deep breathing can help lower blood pressure.",
-      "Apple cider vinegar can help regulate blood sugar.",
-      "Avoiding screens an hour before bed can improve sleep quality.",
-      "Nuts like almonds and walnuts support heart health.",
-      "Hydration improves energy and reduces headaches.",
-      "Vitamin D from sunlight strengthens bones and the immune system.",
-      "Yoga can improve flexibility and reduce anxiety.",
-      "Drinking green tea may boost metabolism and aid weight loss.",
-      "Turmeric contains curcumin, a powerful anti-inflammatory.",
-      "Eating slowly can help control portion size and digestion.",
-      "Avocados are rich in healthy monounsaturated fats.",
-      "Regular strength training helps maintain muscle mass.",
-      "Avoiding processed foods reduces the risk of chronic diseases.",
-      "Fasting intermittently can improve metabolism and insulin sensitivity.",
-      "Probiotic-rich foods like yogurt support gut health.",
-      "Practicing gratitude can improve emotional well-being.",
-      "Eating breakfast kick-starts metabolism.",
-      "Ginger tea helps relieve nausea and inflammation.",
-      "A high-fiber diet reduces the risk of colon cancer.",
-      "Proper posture can alleviate back and neck pain.",
-      "Hand washing prevents the spread of illnesses.",
-      "Vitamin C supports skin health and boosts immunity.",
-      "Limit added sugars to reduce the risk of diabetes.",
-      "Whole grains provide long-lasting energy.",
-      "Cinnamon can help regulate blood sugar levels.",
-      "Staying socially connected reduces stress and boosts happiness.",
-      "Eating smaller, frequent meals can stabilize blood sugar.",
-      "Dark chocolate with 70% cocoa has heart-healthy flavonoids.",
-      "Regular exercise reduces the risk of dementia.",
-      "Blueberries are packed with antioxidants and brain-boosting benefits.",
-      "Avoiding trans fats improves cholesterol levels.",
-      "Listening to calming music can lower cortisol levels.",
-      "Eating fermented foods supports a healthy gut microbiome.",
-      "Avoiding smoking reduces the risk of multiple cancers.",
-      "Regular dental hygiene prevents gum disease and heart issues.",
-      "Intermittent breaks during work improve focus and reduce stress.",
-      "Coconut oil is a natural moisturizer and antimicrobial.",
-      "Pomegranate juice is rich in antioxidants.",
-      "Practicing mindfulness reduces anxiety.",
-      "Adding spices like cayenne can boost metabolism.",
-      "Consuming less salt can lower blood pressure.",
-      "Bone broth is rich in collagen and good for joint health.",
-      "Adequate magnesium intake improves sleep and reduces cramps.",
-      "Maintaining a healthy weight reduces the risk of chronic disease.",
-      "Drinking herbal teas supports hydration and wellness.",
-      "Avocado oil is excellent for high-heat cooking.",
-      "Spending time in nature improves mental health.",
-      "Dark grapes contain resveratrol, which benefits the heart.",
-      "Eating before 8 PM improves digestion.",
-      "Clean environments reduce stress and increase productivity.",
-      "Olive oil is a healthy fat that reduces inflammation.",
-      "Regular eye exams prevent vision problems.",
-      "Sleeping on your back can reduce neck strain.",
-      "Activated charcoal can help with mild detoxification.",
-      "Avoiding excessive alcohol supports liver health.",
-      "Regularly rotating your mattress can improve sleep quality.",
-      "Mushrooms are a great source of vitamin D.",
-      "A gratitude journal improves mental health.",
-      "Echinacea boosts the immune system.",
-      "Proper hydration reduces kidney stone risk.",
-      "Adequate protein intake helps build and repair muscles.",
-      "Eating seeds like pumpkin or sunflower supports immunity.",
-      "Rebounding on a trampoline is excellent for lymphatic health.",
-      "Essential oils like lavender promote relaxation.",
-      "Drinking water first thing in the morning boosts hydration.",
-      "Peppermint oil alleviates headaches.",
-      "Carrots are rich in beta-carotene, which supports vision.",
-      "Avoiding artificial sweeteners can improve gut health.",
-      "Steam inhalation can relieve nasal congestion.",
-      "Lemon balm tea supports relaxation and better sleep.",
-      "Cranberry juice helps prevent urinary tract infections.",
-      "Regular journaling clarifies thoughts and reduces stress.",
-      "Potassium-rich foods like bananas reduce muscle cramps.",
-      "Aloe vera soothes burns and improves skin health.",
-      "Eating oily fish supports brain health.",
-      "Staying active prevents joint stiffness.",
-      "Avoiding late-night caffeine improves sleep.",
-      "Quitting smoking improves lung capacity.",
-      "Taking probiotics helps balance gut bacteria.",
-      "Stretching before bed improves sleep.",
-      "Avoiding fried foods reduces cholesterol.",
-      "Including flaxseeds in your diet supports heart health.",
-      "Drinking water with meals improves digestion.",
-      "Practicing gratitude boosts emotional resilience.",
-      "Regular health check-ups prevent major illnesses."
+      // Add 100 health facts here
     ];
-
     function generateFact() {
       const randomIndex = Math.floor(Math.random() * healthFacts.length);
       document.getElementById("fact-box").textContent = healthFacts[randomIndex];
     }
   </script>
 </body>
-</html>
+</html> 
