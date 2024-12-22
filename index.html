@@ -9,12 +9,8 @@
       margin: 0;
       background: black;
       overflow: hidden;
-      color: white;
       font-family: Arial, sans-serif;
-    }
-
-    canvas {
-      display: block;
+      color: white;
     }
 
     h1 {
@@ -57,6 +53,10 @@
     .footer a:hover {
       text-decoration: underline;
     }
+
+    canvas {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -71,74 +71,32 @@
     canvas.height = window.innerHeight;
 
     const stars = [];
-    const diamonds = [];
     const shootingStars = [];
-    const numberList = [3, 6, 9];
-    const colors = ['#ffffff', '#ffcc00', '#66ff66'];
+    const colors = ['#ffffff', '#ffcc00', '#66ffcc'];
 
     function random(min, max) {
       return Math.random() * (max - min) + min;
     }
 
     class Star {
-      constructor(x, y, size, value) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.value = value;
-        this.angle = 0;
-        this.pulseDirection = Math.random() > 0.5 ? 1 : -1;
-      }
-
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.fillStyle = colors[this.value % colors.length];
-        ctx.font = `${this.size}px Arial`;
-        ctx.fillText(this.value, 0, 0);
-        ctx.restore();
-      }
-
-      update() {
-        this.angle += 0.01;
-        this.size += this.pulseDirection * 0.3;
-        if (this.size > 20 || this.size < 10) {
-          this.pulseDirection *= -1;
-        }
-      }
-    }
-
-    class Diamond {
       constructor(x, y, size) {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.angle = 0;
-        this.pulseDirection = Math.random() > 0.5 ? 1 : -1;
+        this.opacity = Math.random();
       }
 
       draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
         ctx.beginPath();
-        ctx.moveTo(0, -this.size / 2);
-        ctx.lineTo(this.size / 2, 0);
-        ctx.lineTo(0, this.size / 2);
-        ctx.lineTo(-this.size / 2, 0);
-        ctx.closePath();
-        ctx.fillStyle = '#ffffff';
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
         ctx.fill();
-        ctx.restore();
       }
 
       update() {
-        this.angle += 0.01;
-        this.size += this.pulseDirection * 0.3;
-        if (this.size > 12 || this.size < 5) {
-          this.pulseDirection *= -1;
-        }
+        this.opacity += random(-0.02, 0.02);
+        if (this.opacity < 0.3) this.opacity = 0.3;
+        if (this.opacity > 1) this.opacity = 1;
       }
     }
 
@@ -149,7 +107,7 @@
         this.length = random(50, 150);
         this.speed = random(5, 15);
         this.opacity = 1;
-        this.angle = Math.random() > 0.5 ? -Math.PI / 4 : Math.PI / 4;
+        this.angle = Math.PI / 4;
       }
 
       draw() {
@@ -159,8 +117,8 @@
         ctx.beginPath();
         ctx.moveTo(this.x, this.y);
         ctx.lineTo(
-          this.x + this.length * Math.cos(this.angle),
-          this.y + this.length * Math.sin(this.angle)
+          this.x - this.length * Math.cos(this.angle),
+          this.y - this.length * Math.sin(this.angle)
         );
         ctx.stroke();
         ctx.restore();
@@ -170,12 +128,43 @@
         this.x += this.speed * Math.cos(this.angle);
         this.y += this.speed * Math.sin(this.angle);
         this.opacity -= 0.02;
+        if (this.opacity <= 0) this.reset();
+      }
+
+      reset() {
+        this.x = random(0, canvas.width);
+        this.y = random(0, canvas.height / 2);
+        this.opacity = 1;
       }
     }
 
     function init() {
       for (let i = 0; i < 150; i++) {
-        const x = random(0, canvas.width);
-        const y = random(0, canvas.height);
-        const size = random(10, 20);
-        const value = number
+        stars.push(new Star(random(0, canvas.width), random(0, canvas.height), random(1, 3)));
+      }
+
+      for (let i = 0; i < 5; i++) {
+        shootingStars.push(new ShootingStar());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      stars.forEach(star => {
+        star.draw();
+        star.update();
+      });
+
+      shootingStars.forEach(shootingStar => {
+        shootingStar.draw();
+        shootingStar.update();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    init();
+    animate();
+  </script>
+</body>
+</html>
