@@ -57,22 +57,27 @@
       text-decoration: underline;
     }
 
-    .affirmation {
+    .affirmation-container {
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      width: 400px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
       text-align: center;
-      font-size: 1.5em;
-      color: white;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
       z-index: 2;
     }
 
+    .affirmation {
+      font-size: 1.5em;
+      color: white;
+      margin-bottom: 20px;
+    }
+
     #generateButton {
-      position: absolute;
-      bottom: 20%;
-      left: 50%;
-      transform: translateX(-50%);
       font-size: 1.2em;
       padding: 10px 20px;
       background: #ff00ff;
@@ -80,7 +85,6 @@
       border-radius: 10px;
       cursor: pointer;
       color: white;
-      z-index: 2;
       animation: shimmer 3s infinite alternate;
     }
 
@@ -92,8 +96,10 @@
 <body>
   <h1>Fullfeelment App</h1>
   <canvas id="nightSky"></canvas>
-  <div class="affirmation" id="affirmationDisplay">Press the button to generate an affirmation!</div>
-  <button id="generateButton">Generate Affirmation</button>
+  <div class="affirmation-container">
+    <div class="affirmation" id="affirmationDisplay">Press the button to generate an affirmation!</div>
+    <button id="generateButton">Generate Affirmation</button>
+  </div>
   <div class="footer">Made by <a href="https://eatsleepbreathesuccess.com" target="_blank">EatSleepBreatheSuccess.com</a></div>
 
   <script>
@@ -127,6 +133,7 @@
     ];
 
     const stars = [];
+    const diamonds = [];
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#33FFF5', '#FFC300'];
 
     function random(min, max) {
@@ -148,19 +155,46 @@
       }
     }
 
-    function initStars() {
-      for (let i = 0; i < 369; i++) { // 369 stars for the night sky
+    class Diamond {
+      constructor(x, y, size) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+      }
+
+      draw() {
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y - this.size / 2);
+        ctx.lineTo(this.x + this.size / 2, this.y);
+        ctx.lineTo(this.x, this.y + this.size / 2);
+        ctx.lineTo(this.x - this.size / 2, this.y);
+        ctx.closePath();
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
+      }
+    }
+
+    function initElements() {
+      for (let i = 0; i < 200; i++) { // Add 369 stars
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
         const size = random(0.5, 2);
         stars.push(new Star(x, y, size));
       }
+
+      for (let i = 0; i < 169; i++) { // Add 169 diamonds
+        const x = random(0, canvas.width);
+        const y = random(0, canvas.height);
+        const size = random(5, 10);
+        diamonds.push(new Diamond(x, y, size));
+      }
     }
 
-    function animateStars() {
+    function animateElements() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       stars.forEach((star) => star.draw());
-      requestAnimationFrame(animateStars);
+      diamonds.forEach((diamond) => diamond.draw());
+      requestAnimationFrame(animateElements);
     }
 
     function generateAffirmation() {
@@ -170,9 +204,9 @@
       affirmationDisplay.style.color = colors[Math.floor(Math.random() * colors.length)];
     }
 
-    // Initialize and animate stars
-    initStars();
-    animateStars();
+    // Initialize and animate
+    initElements();
+    animateElements();
 
     // Add event listener for the button
     const generateButton = document.getElementById('generateButton');
