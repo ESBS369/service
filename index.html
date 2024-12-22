@@ -10,7 +10,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Arial', sans-serif;
-      animation: colorCycle 10s infinite alternate;
+      animation: colorCycle 6s infinite alternate; /* Faster background animation */
       position: relative;
       overflow: hidden;
     }
@@ -65,31 +65,34 @@
       width: 100%;
       height: 100%;
       z-index: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
     }
 
     .shape-container {
-      position: absolute;
-      animation: float 10s infinite ease-in-out;
+      position: relative;
+      animation: float 3s infinite alternate; /* Faster animation for more aggression */
     }
 
     .shape {
-      font-size: 2rem;
+      font-size: 1.8rem;
       font-weight: bold;
       color: black;
-      animation: float 10s infinite ease-in-out;
     }
 
     .diamond {
-      width: 15px;
-      height: 15px;
+      width: 12px;
+      height: 12px;
       background-color: black;
       transform: rotate(45deg);
-      animation: float 10s infinite ease-in-out;
+      display: inline-block;
     }
 
     @keyframes float {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+      50% { transform: translateY(-15px); }
     }
   </style>
 </head>
@@ -103,17 +106,18 @@
       const background = document.getElementById('background');
 
       const generateDiagonalShapes = () => {
-        const rows = 15; // Number of rows
-        const cols = 15; // Number of columns
+        const rows = 20; // Increase rows for full coverage
+        const cols = 20; // Increase columns for full coverage
 
         for (let row = 0; row < rows; row++) {
           for (let col = 0; col < cols; col++) {
-            // Position the shapes diagonally
-            const left = col * 7 + row * 7 + "%";
-            const top = row * 7 + "%";
+            // Position shapes in diagonal pattern
+            const left = col * 5 + row * 5 + "%";
+            const top = row * 5 + "%";
 
             const container = document.createElement('div');
             container.className = 'shape-container';
+            container.style.position = "absolute";
             container.style.left = left;
             container.style.top = top;
 
