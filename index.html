@@ -158,7 +158,14 @@
     this.angle += 0.02; // Adjust the speed of pulsation
   }
 } 
-
+// Update this section where you initialize diamonds
+for (let i = 0; i < 169; i++) {
+  const x = random(0, canvas.width);
+  const y = random(0, canvas.height);
+  const size = random(5, 10);
+  const offset = random(0, Math.PI * 2); // Random phase offset
+  diamonds.push(new DiamondPoint(x, y, size, offset));
+}
     class NumberPoint {
   constructor(x, y, size, value) {
     this.x = x;
