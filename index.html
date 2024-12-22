@@ -56,12 +56,30 @@
     .footer a:hover {
       text-decoration: underline;
     }
+
+    .affirmation {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 1.5em;
+      color: white;
+      z-index: 2;
+      animation: fadeInOut 10s infinite;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
   </style>
 </head>
 <body>
   <h1>Fullfeelment App</h1>
   <div class="footer">Made by <a href="https://eatsleepbreathesuccess.com" target="_blank">EatSleepBreatheSuccess.com</a></div>
   <canvas id="nightSky"></canvas>
+  <div class="affirmation" id="affirmationDisplay"></div>
 
   <script>
     const canvas = document.getElementById('nightSky');
@@ -69,39 +87,49 @@
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
+    const affirmations = [
+      "I am worthy of success and happiness.",
+      "Every day, in every way, I am getting better and better.",
+      "I attract abundance and prosperity effortlessly.",
+      "My mind is clear, focused, and full of positive energy.",
+      "I am confident in my ability to create the life I desire.",
+      "I radiate love, peace, and positivity.",
+      "I am aligned with my highest purpose and path.",
+      "Every challenge I face is an opportunity to grow and improve.",
+      "I am grateful for all that I have and all that is to come.",
+      "I trust the process of life and embrace its flow.",
+      "I am resilient, strong, and unstoppable.",
+      "I am surrounded by supportive and loving people.",
+      "I am deserving of all good things life has to offer.",
+      "I let go of fear and embrace courage and determination.",
+      "I am in control of my thoughts and emotions.",
+      "My potential is limitless, and I am always learning.",
+      "I choose to focus on the positive aspects of my life.",
+      "I am a magnet for success and achievement.",
+      "I am calm, centered, and balanced.",
+      "I am grateful for the opportunities that come my way.",
+      // Add 80 more affirmations...
+    ];
+
     const stars = [];
     const diamonds = [];
-    const connections = [];
-    const numberList = [3, 6, 9];
-    const colors = ['#ffffff', '#ffcc00', '#66ff66'];
 
     function random(min, max) {
       return Math.random() * (max - min) + min;
     }
 
     class Star {
-      constructor(x, y, size, value) {
+      constructor(x, y, size) {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.value = value;
-        this.angle = 0;
-        this.pulsateSpeed = Math.random() * 0.001 + 0.0005; // Very slow pulsation
       }
 
       draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.fillStyle = colors[this.value % colors.length];
-        ctx.font = `${this.size}px Arial`;
-        ctx.fillText(this.value, 0, 0);
-        ctx.restore();
-      }
-
-      update() {
-        this.angle += 0.01;
-        this.size = Math.abs(Math.sin(performance.now() * this.pulsateSpeed)) * 5 + 10; // Smooth slow pulsation
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = 'white';
+        ctx.fill();
       }
     }
 
@@ -110,7 +138,6 @@
         this.x = x;
         this.y = y;
         this.size = size;
-        this.pulsateSpeed = Math.random() * 0.001 + 0.0005; // Very slow pulsation
       }
 
       draw() {
@@ -123,30 +150,14 @@
         ctx.fillStyle = '#ffffff';
         ctx.fill();
       }
-
-      update() {
-        this.size = Math.abs(Math.sin(performance.now() * this.pulsateSpeed)) * 4 + 4; // Smooth slow pulsation
-      }
-    }
-
-    function connectElements() {
-      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-      ctx.lineWidth = 1;
-      connections.forEach(([a, b]) => {
-        ctx.beginPath();
-        ctx.moveTo(a.x, a.y);
-        ctx.lineTo(b.x, b.y);
-        ctx.stroke();
-      });
     }
 
     function init() {
       for (let i = 0; i < 100; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
-        const size = random(14, 20);
-        const value = numberList[i % numberList.length];
-        stars.push(new Star(x, y, size, value));
+        const size = random(0.5, 2);
+        stars.push(new Star(x, y, size));
       }
 
       for (let i = 0; i < 50; i++) {
@@ -155,28 +166,29 @@
         const size = random(5, 10);
         diamonds.push(new Diamond(x, y, size));
       }
-
-      stars.forEach((star) => {
-        const randomDiamond = diamonds[Math.floor(Math.random() * diamonds.length)];
-        connections.push([star, randomDiamond]);
-      });
     }
 
     function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach((star) => {
-        star.update();
-        star.draw();
-      });
-
-      diamonds.forEach((diamond) => {
-        diamond.update();
-        diamond.draw();
-      });
-
-      connectElements();
-
+      stars.forEach((star) => star.draw());
+      diamonds.forEach((diamond) => diamond.draw());
       requestAnimationFrame(animate);
     }
+
+    function displayAffirmations() {
+      const affirmationDisplay = document.getElementById('affirmationDisplay');
+      let index = 0;
+      setInterval(() => {
+        affirmationDisplay.textContent = affirmations[index];
+        index = (index + 1) % affirmations.length;
+      }, 10000); // Change every 10 seconds
+    }
+
+    init();
+    animate();
+    displayAffirmations();
+  </script>
+</body>
+</html>
 
     
