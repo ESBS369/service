@@ -10,7 +10,7 @@
       margin: 0;
       padding: 0;
       font-family: 'Arial', sans-serif;
-      animation: colorCycle 6s infinite alternate; /* Faster background animation */
+      animation: colorCycle 6s infinite alternate;
       position: relative;
       overflow: hidden;
     }
@@ -57,7 +57,7 @@
       text-decoration: underline;
     }
 
-    /* 369 and Diamond Background */
+    /* 369 and Diagonal Background */
     .background {
       position: fixed;
       top: 0;
@@ -72,22 +72,24 @@
     }
 
     .shape-container {
-      position: relative;
-      animation: float 3s infinite alternate; /* Faster animation for more aggression */
+      position: absolute;
+      animation: float 3s infinite alternate; /* Aggressive animation */
     }
 
     .shape {
       font-size: 1.8rem;
       font-weight: bold;
       color: black;
+      animation: rotate 4s infinite linear; /* Rotation Animation */
     }
 
-    .diamond {
-      width: 12px;
-      height: 12px;
-      background-color: black;
-      transform: rotate(45deg);
-      display: inline-block;
+    @keyframes rotate {
+      from {
+        transform: rotate(0deg);
+      }
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     @keyframes float {
@@ -106,29 +108,25 @@
       const background = document.getElementById('background');
 
       const generateDiagonalShapes = () => {
-        const rows = 20; // Increase rows for full coverage
-        const cols = 20; // Increase columns for full coverage
+        const rows = 30; // Increased for better coverage
+        const cols = 30; // Increased for better coverage
+
+        let count = 0; // For cycling through 369 pattern
 
         for (let row = 0; row < rows; row++) {
           for (let col = 0; col < cols; col++) {
-            // Position shapes in diagonal pattern
-            const left = col * 5 + row * 5 + "%";
-            const top = row * 5 + "%";
+            const left = col * 3 + "%";
+            const top = row * 3 + "%";
 
             const container = document.createElement('div');
             container.className = 'shape-container';
-            container.style.position = "absolute";
             container.style.left = left;
             container.style.top = top;
 
-            // Alternate between 369 and diamonds
             const shape = document.createElement('div');
-            if ((row + col) % 2 === 0) {
-              shape.className = 'shape';
-              shape.textContent = (row + col) % 3 === 0 ? '3' : (row + col) % 3 === 1 ? '6' : '9';
-            } else {
-              shape.className = 'diamond';
-            }
+            shape.className = 'shape';
+            shape.textContent = ['3', '6', '9'][count % 3]; // Cycle through 3, 6, 9
+            count++;
 
             container.appendChild(shape);
             background.appendChild(container);
