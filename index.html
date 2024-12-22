@@ -77,6 +77,7 @@
         this.size = size;
         this.value = value;
         this.angle = 0;
+        this.pulseDirection = Math.random() > 0.5 ? 1 : -1;
       }
 
       draw() {
@@ -91,7 +92,10 @@
 
       update() {
         this.angle += 0.01;
-        this.size = Math.abs(Math.sin(this.angle)) * 15 + 10; // Pulsating effect
+        this.size += this.pulseDirection * 0.3;
+        if (this.size > 20 || this.size < 10) {
+          this.pulseDirection *= -1; // Alternate pulsations
+        }
       }
     }
 
@@ -101,6 +105,7 @@
         this.y = y;
         this.size = size;
         this.angle = 0;
+        this.pulseDirection = Math.random() > 0.5 ? 1 : -1;
       }
 
       draw() {
@@ -120,13 +125,16 @@
 
       update() {
         this.angle += 0.01;
-        this.size = Math.abs(Math.sin(this.angle)) * 8 + 5; // Pulsating effect
+        this.size += this.pulseDirection * 0.3;
+        if (this.size > 12 || this.size < 5) {
+          this.pulseDirection *= -1; // Alternate pulsations
+        }
       }
     }
 
     function connectPoints(pointA, pointB) {
-      ctx.strokeStyle = `rgba(255, 255, 255, 0.1)`;
-      ctx.lineWidth = 1;
+      ctx.strokeStyle = `rgba(255, 255, 255, 0.2)`; // More visible lines
+      ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(pointA.x, pointA.y);
       ctx.lineTo(pointB.x, pointB.y);
@@ -149,7 +157,7 @@
       for (let i = 0; i < 150; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
-        const size = random(14, 20);
+        const size = random(10, 20);
         const value = numberList[i % numberList.length];
         stars.push(new Star(x, y, size, value));
       }
