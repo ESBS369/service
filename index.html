@@ -134,6 +134,7 @@
 
     const stars = [];
     const diamonds = [];
+    const lines = [];
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#33FFF5', '#FFC300'];
 
     function random(min, max) {
@@ -166,31 +167,44 @@
     }
 
     class Diamond {
-      constructor(x, y, size, offset) {
+      constructor(x, y, size, color) {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.offset = offset;
+        this.color = color;
+        this.opacity = 0;
+        this.direction = 1;
       }
 
       draw() {
         ctx.save();
         ctx.translate(this.x, this.y);
-        ctx.rotate(this.offset);
         ctx.beginPath();
         ctx.moveTo(0, -this.size / 2);
         ctx.lineTo(this.size / 2, 0);
         ctx.lineTo(0, this.size / 2);
         ctx.lineTo(-this.size / 2, 0);
         ctx.closePath();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
         ctx.fill();
         ctx.restore();
       }
 
       update() {
-        this.offset += 0.01;
+        this.opacity += 0.02 * this.direction;
+        if (this.opacity > 1 || this.opacity < 0) {
+          this.direction *= -1;
+        }
       }
+    }
+
+    function connectPoints(pointA, pointB) {
+      ctx.strokeStyle = `rgba(255, 255, 255, 0.2)`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pointA.x, pointA.y);
+      ctx.lineTo(pointB.x, pointB.y);
+      ctx.stroke();
     }
 
     function initElements() {
@@ -207,7 +221,13 @@
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
         const size = random(8, 12);
-        diamonds.push(new Diamond(x, y, size, random(0, Math.PI * 2)));
+        diamonds.push(new Diamond(x, y, size, "#ffffff"));
+      }
+
+      for (let i = 0; i < stars.length - 1; i++) {
+        const pointA = stars[i];
+        const pointB = stars[i + 1];
+        lines.push({ pointA, pointB });
       }
     }
 
@@ -224,6 +244,10 @@
         diamond.draw();
       });
 
+      lines.forEach(({ pointA, pointB }) => {
+        connectPoints(pointA, pointB);
+      });
+
       requestAnimationFrame(animate);
     }
 
@@ -237,6 +261,10 @@
     window.addEventListener('resize', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+      stars.length = 0;
+      diamonds.length = 0;
+      lines.length = 0;
+      initElements();
     });
 
     initElements();
