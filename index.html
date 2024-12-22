@@ -157,28 +157,34 @@
     }
 
     class NumberPoint {
-      constructor(x, y, size, value) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.value = value;
-        this.angle = 0;
-      }
+  constructor(x, y, size, value) {
+    this.x = x;
+    this.y = y;
+    this.size = size;
+    this.value = value;
+    this.angle = 0;
+    this.color = this.getRandomBIVColor();
+  }
 
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.font = `${this.size}px Arial`;
-        ctx.fillStyle = '#ff00ff';
-        ctx.fillText(this.value, 0, 0);
-        ctx.restore();
-      }
+  getRandomBIVColor() {
+    const bivColors = ['#0000FF', '#4B0082', '#8A2BE2', '#9400D3', '#9932CC', '#8B00FF'];
+    return bivColors[Math.floor(Math.random() * bivColors.length)];
+  }
 
-      update() {
-        this.angle += 0.01;
-      }
-    }
+  draw() {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+    ctx.font = `${this.size}px Arial`;
+    ctx.fillStyle = this.color;
+    ctx.fillText(this.value, 0, 0);
+    ctx.restore();
+  }
+
+  update() {
+    this.angle += 0.01;
+  }
+}
 
     function connectPoints() {
       ctx.strokeStyle = `rgba(255, 255, 255, 0.2)`;
