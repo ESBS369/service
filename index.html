@@ -36,14 +36,14 @@
       flex-wrap: wrap;
       justify-content: space-around;
       align-items: center;
-      opacity: 0.2;
+      opacity: 0.1;
       pointer-events: none;
     }
 
     .background-369 span {
       font-size: 2rem;
       font-weight: bold;
-      color: rgba(255, 255, 255, 0.1);
+      color: rgba(255, 255, 255, 0.2);
       transform: rotate(45deg);
     }
 
@@ -87,10 +87,11 @@
     footer {
       margin-top: 30px;
       font-size: 14px;
+      color: gold;
     }
 
     footer a {
-      color: #2196f3;
+      color: inherit;
       text-decoration: none;
     }
 
@@ -118,10 +119,11 @@
   <div class="container">
     <h1>Fullfeelment App</h1>
 
-    <!-- World Clock -->
+    <!-- World Clock and Local Weather -->
     <div class="section">
-      <h2>World Clock</h2>
+      <h2>World Clock & Local Weather</h2>
       <div id="world-clock-globe" class="world-globe"></div>
+      <p id="local-weather">Loading local weather...</p>
     </div>
 
     <!-- Moon Phase -->
@@ -229,28 +231,14 @@
     }
     updateMoonPhase();
 
-    // Affirmations
-    const affirmations = ["You are capable!", "You are strong!"];
-    function generateAffirmation() {
-      const name = document.getElementById("name-input").value || "You";
-      const affirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
-      document.getElementById("affirmation-output").innerText = `${name}, ${affirmation}`;
+    // Local Weather
+    function updateWeather() {
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        document.getElementById("local-weather").innerText = `Latitude: ${latitude}, Longitude: ${longitude}`;
+      });
     }
-
-    // Frequencies
-    function playFrequency() {
-      const selectedFrequency = document.getElementById("frequency-select").value;
-      const player = document.getElementById("frequency-player");
-      player.src = `frequencies/${selectedFrequency}`;
-      player.play();
-    }
-
-    // Health Facts
-    const healthFacts = ["Drink water.", "Stretch daily."];
-    function generateFact() {
-      const fact = healthFacts[Math.floor(Math.random() * healthFacts.length)];
-      document.getElementById("fact-box").innerText = fact;
-    }
+    updateWeather();
   </script>
 </body>
 </html>
