@@ -11,7 +11,6 @@
       padding: 0;
       font-family: 'Arial', sans-serif;
       animation: colorCycle 6s infinite alternate;
-      position: relative;
       overflow: hidden;
     }
 
@@ -71,32 +70,18 @@
       justify-content: center;
     }
 
-    .shape-container {
+    .cell {
       position: absolute;
-      animation: float 3s infinite alternate; /* Aggressive animation */
-    }
-
-    .shape {
-      font-size: 1.8rem;
+      color: black;
+      font-size: 1.5rem;
       font-weight: bold;
-      color: black;
-      animation: rotate 4s infinite linear; /* Rotation Animation */
+      text-align: center;
     }
 
-    .diamond {
-      font-size: 1.2rem;
+    .connector {
+      position: absolute;
+      font-size: 1rem;
       color: black;
-      display: inline-block;
-      margin: 0 2px;
-    }
-
-    @keyframes rotate {
-      from {
-        transform: rotate(0deg);
-      }
-      to {
-        transform: rotate(360deg);
-      }
     }
 
     @keyframes float {
@@ -114,41 +99,38 @@
     <script>
       const background = document.getElementById('background');
 
-      const generateDiagonalShapes = () => {
-        const rows = 30; // Increased for better coverage
-        const cols = 30; // Increased for better coverage
-
-        let count = 0; // For cycling through 369 pattern
+      const generateWeb = () => {
+        const rows = 15; // Number of diagonal rows
+        const cols = 15; // Number of diagonal columns
+        const cellSize = 80; // Distance between cells
 
         for (let row = 0; row < rows; row++) {
           for (let col = 0; col < cols; col++) {
-            const left = col * 4 + "%";
-            const top = row * 4 + "%";
+            const xOffset = col * cellSize - (row % 2 === 0 ? 0 : cellSize / 2); // Offset for zig-zag
+            const yOffset = row * cellSize;
 
-            const container = document.createElement('div');
-            container.className = 'shape-container';
-            container.style.left = left;
-            container.style.top = top;
+            // Create Number
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+            cell.style.left = `${xOffset}px`;
+            cell.style.top = `${yOffset}px`;
+            cell.textContent = ['3', '6', '9'][(col + row) % 3]; // Cycle 3, 6, 9
 
-            const shape = document.createElement('div');
-            shape.className = 'shape';
-            shape.textContent = ['3', '6', '9'][count % 3]; // Cycle through 3, 6, 9
-            count++;
+            // Create Connector (Diamond)
+            const connector = document.createElement('div');
+            connector.className = 'connector';
+            connector.style.left = `${xOffset + cellSize / 2}px`;
+            connector.style.top = `${yOffset + cellSize / 2}px`;
+            connector.textContent = '◆'; // Diamond Symbol
 
-            const diamond = document.createElement('span');
-            diamond.className = 'diamond';
-            diamond.textContent = '◆'; // Diamond Symbol
-
-            // Add shape and diamond to the container
-            container.appendChild(shape);
-            container.appendChild(diamond);
-
-            background.appendChild(container);
+            // Append to background
+            background.appendChild(cell);
+            background.appendChild(connector);
           }
         }
       };
 
-      generateDiagonalShapes();
+      generateWeb();
     </script>
   </div>
 
