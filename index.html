@@ -170,7 +170,157 @@
       <h2>Health Facts Generator</h2>
       <div id="fact-box">Click the button to see a random health fact!</div>
       <button onclick="generateFact()">Get a Health Fact</button>
-    </div>
+    </div><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Health Facts Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 20px;
+      background: linear-gradient(135deg, #d4fc79, #96e6a1);
+      color: #333;
+    }
+    #fact-box {
+      font-size: 1.5rem;
+      margin: 20px auto;
+      padding: 20px;
+      max-width: 600px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      color: #fff;
+      background: #28a745;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
+</head>
+<body>
+  <h1>Health Facts Generator</h1>
+  <div id="fact-box">Click the button to see a random health fact!</div>
+  <button onclick="generateFact()">Get a Health Fact</button>
+
+  <script>
+    const healthFacts = [
+      "Drink water to stay hydrated.",
+      "Walking daily improves cardiovascular health.",
+      "Leafy greens provide essential nutrients.",
+      "Stretching improves flexibility and reduces injuries.",
+      "Deep breathing lowers blood pressure.",
+      "Meditation reduces stress and increases focus.",
+      "Eating whole grains boosts long-lasting energy.",
+      "Omega-3 fatty acids improve brain function.",
+      "Sleeping 7–9 hours boosts immunity.",
+      "Probiotic foods support gut health.",
+      "Avoiding added sugars reduces diabetes risk.",
+      "Daily sunlight improves Vitamin D levels.",
+      "Dark chocolate is heart-healthy in moderation.",
+      "Lemon water helps digestion.",
+      "Ginger tea relieves nausea and inflammation.",
+      "Avocado contains healthy monounsaturated fats.",
+      "Blueberries are rich in antioxidants.",
+      "Regular exercise prevents dementia.",
+      "Olive oil reduces inflammation.",
+      "Bone broth supports joint health.",
+      "Vitamin C strengthens the immune system.",
+      "Apple cider vinegar helps regulate blood sugar.",
+      "Eating slowly improves digestion.",
+      "Proper hydration reduces headaches.",
+      "Eating before 8 PM aids digestion.",
+      "Yoga promotes relaxation and flexibility.",
+      "Avoiding trans fats improves cholesterol.",
+      "Spending time in nature reduces stress.",
+      "Fermented foods support a healthy microbiome.",
+      "Cinnamon helps regulate blood sugar.",
+      "Nuts like almonds improve heart health.",
+      "Matcha tea boosts metabolism.",
+      "Garlic has antibacterial properties.",
+      "Stretching before bed enhances sleep quality.",
+      "Vitamin D supports strong bones.",
+      "Whole fruits provide natural fiber.",
+      "Dark leafy greens like kale are nutrient-rich.",
+      "A gratitude journal improves mental health.",
+      "Handwashing prevents disease spread.",
+      "Green tea is rich in antioxidants.",
+      "Regular laughter boosts the immune system.",
+      "Aloe vera soothes burns and skin irritation.",
+      "Practicing mindfulness reduces anxiety.",
+      "Carrots improve vision with beta-carotene.",
+      "Avoiding screens before bed enhances sleep.",
+      "Chia seeds are rich in omega-3s and fiber.",
+      "Maintaining a healthy weight reduces chronic disease risk.",
+      "Eating a rainbow of fruits ensures diverse nutrients.",
+      "Proper posture prevents back and neck pain.",
+      "Avoiding processed foods improves overall health.",
+      "Spices like turmeric reduce inflammation.",
+      "Adequate protein intake repairs muscles.",
+      "Hydration improves skin health.",
+      "Social connection improves happiness.",
+      "Chewing food thoroughly aids digestion.",
+      "Intermittent fasting improves insulin sensitivity.",
+      "Vitamin E supports healthy skin.",
+      "Avoiding alcohol protects liver health.",
+      "Grapefruit lowers blood pressure.",
+      "Pumpkin seeds support immunity.",
+      "Fasting aids detoxification.",
+      "Eating fish supports heart health.",
+      "Cold showers improve circulation.",
+      "Massage reduces muscle tension.",
+      "Spending time with pets reduces stress.",
+      "Avoiding fried foods lowers cholesterol.",
+      "Listening to music improves mood.",
+      "Cooking at home ensures healthier meals.",
+      "Eating breakfast boosts metabolism.",
+      "Drinking herbal teas supports relaxation.",
+      "Eating smaller meals stabilizes blood sugar.",
+      "Cranberries support urinary tract health.",
+      "Avoiding artificial sweeteners protects gut health.",
+      "Eating seaweed provides iodine.",
+      "Regular journaling clarifies thoughts.",
+      "Daily stretching prevents stiffness.",
+      "Focusing on gratitude reduces stress.",
+      "Spicy foods boost metabolism.",
+      "Probiotic supplements improve digestion.",
+      "Apple peel contains fiber and antioxidants.",
+      "Sleeping on your back prevents wrinkles.",
+      "Walking barefoot improves balance.",
+      "Vitamin A supports vision and skin health.",
+      "Fresh air improves lung function.",
+      "Eating seeds supports bone health.",
+      "Steam inhalation clears sinuses.",
+      "Regular eye exams prevent vision loss.",
+      "Meditating outdoors boosts creativity.",
+      "Avoiding late-night snacks improves digestion.",
+      "Massage therapy alleviates chronic pain.",
+      "Coconut water restores electrolytes.",
+      "Dark grapes reduce inflammation.",
+      "Clean environments improve productivity.",
+      "Potassium-rich foods prevent muscle cramps.",
+      "Herbal baths promote relaxation.",
+      "Elderberries boost immunity.",
+      "Activated charcoal aids detox.",
+    ];
+
+    function generateFact() {
+      const randomIndex = Math.floor(Math.random() * healthFacts.length);
+      document.getElementById("fact-box").textContent = healthFacts[randomIndex];
+    }
+  </script>
+</body>
+</html>
 
     <!-- Affirmations -->
     <div class="section">
