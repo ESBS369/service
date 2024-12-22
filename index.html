@@ -56,7 +56,7 @@
       text-decoration: underline;
     }
 
-    /* Diagonal Background with Diamonds */
+    /* Background Pattern */
     .background {
       position: fixed;
       top: 0;
@@ -64,10 +64,6 @@
       width: 100%;
       height: 100%;
       z-index: 0;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
     }
 
     .cell {
@@ -75,18 +71,22 @@
       color: black;
       font-size: 1.5rem;
       font-weight: bold;
+    }
+
+    .diamond {
+      position: absolute;
+      color: black;
+      font-size: 2rem;
+      font-weight: bold;
       text-align: center;
     }
 
-    .connector {
+    /* Connecting Lines */
+    .line {
       position: absolute;
-      font-size: 1rem;
-      color: black;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-15px); }
+      background-color: black;
+      height: 2px;
+      z-index: 1;
     }
   </style>
 </head>
@@ -94,19 +94,20 @@
   <!-- Title -->
   <h1>Fullfeelment App</h1>
 
-  <!-- Dynamic Background -->
+  <!-- Background Pattern -->
   <div class="background" id="background">
     <script>
       const background = document.getElementById('background');
 
       const generateWeb = () => {
-        const rows = 15; // Number of diagonal rows
-        const cols = 15; // Number of diagonal columns
+        const rows = 12; // Number of rows
+        const cols = 20; // Number of columns
         const cellSize = 80; // Distance between cells
+        const diamondSize = 40; // Size of the diamonds
 
         for (let row = 0; row < rows; row++) {
           for (let col = 0; col < cols; col++) {
-            const xOffset = col * cellSize - (row % 2 === 0 ? 0 : cellSize / 2); // Offset for zig-zag
+            const xOffset = col * cellSize;
             const yOffset = row * cellSize;
 
             // Create Number
@@ -116,16 +117,36 @@
             cell.style.top = `${yOffset}px`;
             cell.textContent = ['3', '6', '9'][(col + row) % 3]; // Cycle 3, 6, 9
 
-            // Create Connector (Diamond)
-            const connector = document.createElement('div');
-            connector.className = 'connector';
-            connector.style.left = `${xOffset + cellSize / 2}px`;
-            connector.style.top = `${yOffset + cellSize / 2}px`;
-            connector.textContent = '◆'; // Diamond Symbol
+            // Create Diamond
+            const diamond = document.createElement('div');
+            diamond.className = 'diamond';
+            diamond.style.left = `${xOffset + cellSize / 2 - diamondSize / 2}px`;
+            diamond.style.top = `${yOffset + cellSize / 2 - diamondSize / 2}px`;
+            diamond.textContent = '◆'; // Diamond Symbol
 
             // Append to background
             background.appendChild(cell);
-            background.appendChild(connector);
+            background.appendChild(diamond);
+
+            // Add Connecting Line
+            if (col > 0) {
+              const line = document.createElement('div');
+              line.className = 'line';
+              line.style.width = `${cellSize}px`;
+              line.style.left = `${xOffset - cellSize / 2}px`;
+              line.style.top = `${yOffset + cellSize / 2 - 1}px`;
+              background.appendChild(line);
+            }
+
+            if (row > 0) {
+              const line = document.createElement('div');
+              line.className = 'line';
+              line.style.height = `${cellSize}px`;
+              line.style.width = '2px';
+              line.style.left = `${xOffset + cellSize / 2 - 1}px`;
+              line.style.top = `${yOffset - cellSize / 2}px`;
+              background.appendChild(line);
+            }
           }
         }
       };
