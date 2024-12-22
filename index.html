@@ -86,7 +86,7 @@
         this.size = size;
         this.value = value;
         this.angle = 0;
-        this.pulsateSpeed = Math.random() * 0.02 + 0.01;
+        this.pulsateSpeed = Math.random() * 0.01 + 0.005; // Slower pulsation for numbers
       }
 
       draw() {
@@ -101,7 +101,7 @@
 
       update() {
         this.angle += 0.02;
-        this.size = Math.abs(Math.sin(this.angle * this.pulsateSpeed)) * 15 + 10; // Pulsate
+        this.size = Math.abs(Math.sin(performance.now() * this.pulsateSpeed)) * 10 + 12; // Pulsate slower
       }
     }
 
@@ -110,7 +110,7 @@
         this.x = x;
         this.y = y;
         this.size = size;
-        this.pulsateSpeed = Math.random() * 0.02 + 0.01;
+        this.pulsateSpeed = Math.random() * 0.015 + 0.01; // Alternate pulsation speed
       }
 
       draw() {
@@ -125,7 +125,7 @@
       }
 
       update() {
-        this.size = Math.abs(Math.sin(performance.now() * this.pulsateSpeed)) * 8 + 5; // Pulsate
+        this.size = Math.abs(Math.sin(performance.now() * this.pulsateSpeed)) * 8 + 5; // Alternate pulsation
       }
     }
 
@@ -165,7 +165,7 @@
       update() {
         this.x += this.dx;
         this.y += this.dy;
-        this.opacity -= 0.02;
+        this.opacity -= 0.005;
         if (this.opacity <= 0) {
           shootingStar = null;
         }
@@ -181,15 +181,6 @@
       shootingStar = new ShootingStar(x, y, dx, dy, size);
     }
 
-    function connectPoints(pointA, pointB) {
-      ctx.strokeStyle = `rgba(255, 255, 255, 0.1)`;
-      ctx.lineWidth = 0.5;
-      ctx.beginPath();
-      ctx.moveTo(pointA.x, pointA.y);
-      ctx.lineTo(pointB.x, pointB.y);
-      ctx.stroke();
-    }
-
     function init() {
       for (let i = 0; i < 100; i++) {
         const x = random(0, canvas.width);
@@ -197,14 +188,6 @@
         const size = random(14, 20);
         const value = numberList[i % numberList.length];
         stars.push(new Star(x, y, size, value));
-      }
-
-      for (let i = 0; i < stars.length; i++) {
-        const pointA = stars[i];
-        for (let j = i + 1; j < stars.length; j++) {
-          const pointB = stars[j];
-          connectPoints(pointA, pointB);
-        }
       }
 
       for (let i = 0; i < 50; i++) {
@@ -216,7 +199,7 @@
 
       setInterval(() => {
         if (!shootingStar) createShootingStar();
-      }, 6000); // Shooting star every 6 seconds
+      }, 8000); // Shooting star every 8 seconds
     }
 
     function animate() {
