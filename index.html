@@ -57,7 +57,7 @@
       text-decoration: underline;
     }
 
-    /* 369 and Diagonal Background */
+    /* Diagonal Background with Diamonds */
     .background {
       position: fixed;
       top: 0;
@@ -81,6 +81,13 @@
       font-weight: bold;
       color: black;
       animation: rotate 4s infinite linear; /* Rotation Animation */
+    }
+
+    .diamond {
+      font-size: 1.2rem;
+      color: black;
+      display: inline-block;
+      margin: 0 2px;
     }
 
     @keyframes rotate {
@@ -115,8 +122,8 @@
 
         for (let row = 0; row < rows; row++) {
           for (let col = 0; col < cols; col++) {
-            const left = col * 3 + "%";
-            const top = row * 3 + "%";
+            const left = col * 4 + "%";
+            const top = row * 4 + "%";
 
             const container = document.createElement('div');
             container.className = 'shape-container';
@@ -128,7 +135,14 @@
             shape.textContent = ['3', '6', '9'][count % 3]; // Cycle through 3, 6, 9
             count++;
 
+            const diamond = document.createElement('span');
+            diamond.className = 'diamond';
+            diamond.textContent = '◆'; // Diamond Symbol
+
+            // Add shape and diamond to the container
             container.appendChild(shape);
+            container.appendChild(diamond);
+
             background.appendChild(container);
           }
         }
