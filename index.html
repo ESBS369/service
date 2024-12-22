@@ -71,6 +71,7 @@
 
     const stars = [];
     const diamonds = [];
+    const connections = [];
     let shootingStar = null;
     const numberList = [3, 6, 9];
     const colors = ['#ffffff', '#ffcc00', '#66ff66'];
@@ -86,7 +87,7 @@
         this.size = size;
         this.value = value;
         this.angle = 0;
-        this.pulsateSpeed = Math.random() * 0.01 + 0.005; // Slower pulsation for numbers
+        this.pulsateSpeed = Math.random() * 0.005 + 0.002; // Slow pulsation
       }
 
       draw() {
@@ -100,8 +101,8 @@
       }
 
       update() {
-        this.angle += 0.02;
-        this.size = Math.abs(Math.sin(performance.now() * this.pulsateSpeed)) * 10 + 12; // Pulsate slower
+        this.angle += 0.01;
+        this.size = Math.abs(Math.sin(performance.now() * this.pulsateSpeed)) * 10 + 12; // Smooth pulsation
       }
     }
 
@@ -110,7 +111,7 @@
         this.x = x;
         this.y = y;
         this.size = size;
-        this.pulsateSpeed = Math.random() * 0.015 + 0.01; // Alternate pulsation speed
+        this.pulsateSpeed = Math.random() * 0.007 + 0.003; // Slow pulsation
       }
 
       draw() {
@@ -125,7 +126,7 @@
       }
 
       update() {
-        this.size = Math.abs(Math.sin(performance.now() * this.pulsateSpeed)) * 8 + 5; // Alternate pulsation
+        this.size = Math.abs(Math.sin(performance.now() * this.pulsateSpeed)) * 8 + 5; // Smooth pulsation
       }
     }
 
@@ -181,6 +182,17 @@
       shootingStar = new ShootingStar(x, y, dx, dy, size);
     }
 
+    function connectElements() {
+      ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+      ctx.lineWidth = 1;
+      connections.forEach(([a, b]) => {
+        ctx.beginPath();
+        ctx.moveTo(a.x, a.y);
+        ctx.lineTo(b.x, b.y);
+        ctx.stroke();
+      });
+    }
+
     function init() {
       for (let i = 0; i < 100; i++) {
         const x = random(0, canvas.width);
@@ -197,9 +209,14 @@
         diamonds.push(new Diamond(x, y, size));
       }
 
+      stars.forEach((star) => {
+        const randomDiamond = diamonds[Math.floor(Math.random() * diamonds.length)];
+        connections.push([star, randomDiamond]);
+      });
+
       setInterval(() => {
         if (!shootingStar) createShootingStar();
-      }, 8000); // Shooting star every 8 seconds
+      }, 10000); // Shooting star every 10 seconds
     }
 
     function animate() {
@@ -214,6 +231,8 @@
         diamond.draw();
       });
 
+      connectElements();
+
       if (shootingStar) {
         shootingStar.update();
         shootingStar.draw();
@@ -227,6 +246,7 @@
       canvas.height = window.innerHeight;
       stars.length = 0;
       diamonds.length = 0;
+      connections.length = 0;
       init();
     });
 
