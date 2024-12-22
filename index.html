@@ -22,10 +22,20 @@
       top: 20px;
       width: 100%;
       text-align: center;
-      color: white;
-      font-size: 2em;
+      font-size: 2.5em;
       z-index: 2;
       pointer-events: none;
+      background: linear-gradient(45deg, #ffcc00, #ff66cc, #66ffcc, #ffcc00);
+      background-size: 400% 400%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: cosmicGlow 6s infinite;
+    }
+
+    @keyframes cosmicGlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     .footer {
@@ -62,7 +72,7 @@
 
     const stars = [];
     const diamonds = [];
-    const lines = [];
+    const shootingStars = [];
     const numberList = [3, 6, 9];
     const colors = ['#ffffff', '#ffcc00', '#66ff66'];
 
@@ -94,7 +104,7 @@
         this.angle += 0.01;
         this.size += this.pulseDirection * 0.3;
         if (this.size > 20 || this.size < 10) {
-          this.pulseDirection *= -1; // Alternate pulsations
+          this.pulseDirection *= -1;
         }
       }
     }
@@ -127,30 +137,40 @@
         this.angle += 0.01;
         this.size += this.pulseDirection * 0.3;
         if (this.size > 12 || this.size < 5) {
-          this.pulseDirection *= -1; // Alternate pulsations
+          this.pulseDirection *= -1;
         }
       }
     }
 
-    function connectPoints(pointA, pointB) {
-      ctx.strokeStyle = `rgba(255, 255, 255, 0.2)`; // More visible lines
-      ctx.lineWidth = 1.5;
-      ctx.beginPath();
-      ctx.moveTo(pointA.x, pointA.y);
-      ctx.lineTo(pointB.x, pointB.y);
-      ctx.stroke();
-    }
+    class ShootingStar {
+      constructor() {
+        this.x = random(0, canvas.width);
+        this.y = random(0, canvas.height / 2);
+        this.length = random(50, 150);
+        this.speed = random(5, 15);
+        this.opacity = 1;
+        this.angle = Math.random() > 0.5 ? -Math.PI / 4 : Math.PI / 4;
+      }
 
-    function createShootingStar() {
-      const x = random(0, canvas.width);
-      const y = random(0, canvas.height / 2);
-      const length = random(100, 300);
-      ctx.strokeStyle = '#ffffff';
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.moveTo(x, y);
-      ctx.lineTo(x + length, y + length / 4);
-      ctx.stroke();
+      draw() {
+        ctx.save();
+        ctx.strokeStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(this.x, this.y);
+        ctx.lineTo(
+          this.x + this.length * Math.cos(this.angle),
+          this.y + this.length * Math.sin(this.angle)
+        );
+        ctx.stroke();
+        ctx.restore();
+      }
+
+      update() {
+        this.x += this.speed * Math.cos(this.angle);
+        this.y += this.speed * Math.sin(this.angle);
+        this.opacity -= 0.02;
+      }
     }
 
     function init() {
@@ -158,58 +178,4 @@
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
         const size = random(10, 20);
-        const value = numberList[i % numberList.length];
-        stars.push(new Star(x, y, size, value));
-      }
-
-      for (let i = 0; i < 75; i++) {
-        const x = random(0, canvas.width);
-        const y = random(0, canvas.height);
-        const size = random(5, 10);
-        diamonds.push(new Diamond(x, y, size));
-      }
-
-      for (let i = 0; i < stars.length - 1; i++) {
-        const pointA = stars[i];
-        const pointB = stars[i + 1];
-        lines.push({ pointA, pointB });
-      }
-
-      setInterval(() => {
-        createShootingStar();
-      }, 3000); // Shooting star every 3 seconds
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach((star) => {
-        star.update();
-        star.draw();
-      });
-
-      diamonds.forEach((diamond) => {
-        diamond.update();
-        diamond.draw();
-      });
-
-      lines.forEach(({ pointA, pointB }) => {
-        connectPoints(pointA, pointB);
-      });
-
-      requestAnimationFrame(animate);
-    }
-
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      stars.length = 0;
-      diamonds.length = 0;
-      lines.length = 0;
-      init();
-    });
-
-    init();
-    animate();
-  </script>
-</body>
-</html>
+        const value = number
