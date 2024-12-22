@@ -91,6 +91,7 @@
 
       update() {
         this.angle += 0.01;
+        this.size = Math.abs(Math.sin(this.angle)) * 15 + 10; // Pulsating effect
       }
     }
 
@@ -119,11 +120,12 @@
 
       update() {
         this.angle += 0.01;
+        this.size = Math.abs(Math.sin(this.angle)) * 8 + 5; // Pulsating effect
       }
     }
 
     function connectPoints(pointA, pointB) {
-      ctx.strokeStyle = '#444';
+      ctx.strokeStyle = `rgba(255, 255, 255, 0.1)`;
       ctx.lineWidth = 1;
       ctx.beginPath();
       ctx.moveTo(pointA.x, pointA.y);
@@ -131,8 +133,20 @@
       ctx.stroke();
     }
 
+    function createShootingStar() {
+      const x = random(0, canvas.width);
+      const y = random(0, canvas.height / 2);
+      const length = random(100, 300);
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 2;
+      ctx.beginPath();
+      ctx.moveTo(x, y);
+      ctx.lineTo(x + length, y + length / 4);
+      ctx.stroke();
+    }
+
     function init() {
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 150; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
         const size = random(14, 20);
@@ -140,7 +154,7 @@
         stars.push(new Star(x, y, size, value));
       }
 
-      for (let i = 0; i < 50; i++) {
+      for (let i = 0; i < 75; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
         const size = random(5, 10);
@@ -152,6 +166,10 @@
         const pointB = stars[i + 1];
         lines.push({ pointA, pointB });
       }
+
+      setInterval(() => {
+        createShootingStar();
+      }, 3000); // Shooting star every 3 seconds
     }
 
     function animate() {
