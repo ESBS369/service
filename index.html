@@ -64,7 +64,6 @@
       transform: translate(-50%, -50%);
       text-align: center;
       font-size: 1.5em;
-      color: white;
       z-index: 2;
       animation: fadeInOut 10s infinite;
     }
@@ -113,6 +112,146 @@
 
     const stars = [];
     const diamonds = [];
+
+    function random(min, max) {
+      return Math.random() * (min - max) + min;
+    }
+
+    class Star {
+      constructor(x, y, size) {
+        this.x = x;
+        this.y = random(3,10);
+        this.size = size;
+      }
+
+      draw() {
+        c.strokePath({date-fixed,true})
+  </script>
+</body>
+</html>
+
+It seems your submission cut off before completing the script or the update I could generate! Let me finalize and ensure you have the complete version, including the **color spectrum-changing affirmation generator**:
+
+---
+
+### Updated Code (Complete):
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fullfeelment App</title>
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+      color: white;
+      font-family: Arial, sans-serif;
+    }
+
+    canvas {
+      display: block;
+    }
+
+    h1 {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      font-size: 2.5em;
+      z-index: 2;
+      pointer-events: none;
+      animation: shimmer 5s infinite alternate;
+    }
+
+    @keyframes shimmer {
+      0% {
+        text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #ff00ff, 0 0 30px #ff00ff, 0 0 40px #ff00ff;
+      }
+      100% {
+        text-shadow: 0 0 5px #ffffff, 0 0 10px #ffffff, 0 0 20px #00ffff, 0 0 30px #00ffff, 0 0 40px #00ffff;
+      }
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      color: white;
+      font-size: 1em;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .footer a {
+      color: white;
+      text-decoration: none;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    .affirmation {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      font-size: 1.5em;
+      z-index: 2;
+      animation: fadeInOut 10s infinite;
+    }
+
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0; }
+      50% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Fullfeelment App</h1>
+  <div class="footer">Made by <a href="https://eatsleepbreathesuccess.com" target="_blank">EatSleepBreatheSuccess.com</a></div>
+  <canvas id="nightSky"></canvas>
+  <div class="affirmation" id="affirmationDisplay"></div>
+
+  <script>
+    const canvas = document.getElementById('nightSky');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const affirmations = [
+      "I am worthy of success and happiness.",
+      "Every day, in every way, I am getting better and better.",
+      "I attract abundance and prosperity effortlessly.",
+      "My mind is clear, focused, and full of positive energy.",
+      "I am confident in my ability to create the life I desire.",
+      "I radiate love, peace, and positivity.",
+      "I am aligned with my highest purpose and path.",
+      "Every challenge I face is an opportunity to grow and improve.",
+      "I am grateful for all that I have and all that is to come.",
+      "I trust the process of life and embrace its flow.",
+      "I am resilient, strong, and unstoppable.",
+      "I am surrounded by supportive and loving people.",
+      "I am deserving of all good things life has to offer.",
+      "I let go of fear and embrace courage and determination.",
+      "I am in control of my thoughts and emotions.",
+      "My potential is limitless, and I am always learning.",
+      "I choose to focus on the positive aspects of my life.",
+      "I am a magnet for success and achievement.",
+      "I am calm, centered, and balanced.",
+      "I am grateful for the opportunities that come my way.",
+      // Add 80 more affirmations here...
+    ];
+
+    const stars = [];
+    const diamonds = [];
+    const colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#33FFF5', '#FFC300'];
 
     function random(min, max) {
       return Math.random() * (max - min) + min;
@@ -178,9 +317,14 @@
     function displayAffirmations() {
       const affirmationDisplay = document.getElementById('affirmationDisplay');
       let index = 0;
+      let colorIndex = 0;
+
       setInterval(() => {
         affirmationDisplay.textContent = affirmations[index];
+        affirmationDisplay.style.color = colors[colorIndex];
+
         index = (index + 1) % affirmations.length;
+        colorIndex = (colorIndex + 1) % colors.length;
       }, 10000); // Change every 10 seconds
     }
 
@@ -190,5 +334,3 @@
   </script>
 </body>
 </html>
-
-    
