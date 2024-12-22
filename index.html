@@ -7,9 +7,8 @@
   <style>
     body {
       margin: 0;
-      background: black;
       overflow: hidden;
-      color: white;
+      background: black;
       font-family: Arial, sans-serif;
     }
 
@@ -42,7 +41,6 @@
       bottom: 10px;
       width: 100%;
       text-align: center;
-      color: white;
       font-size: 1em;
       z-index: 2;
       pointer-events: none;
@@ -95,7 +93,7 @@
 </head>
 <body>
   <h1>Fullfeelment App</h1>
-  <canvas id="nightSky"></canvas>
+  <canvas id="backgroundCanvas"></canvas>
   <div class="affirmation-container">
     <div class="affirmation" id="affirmationDisplay">Press the button to generate an affirmation!</div>
     <button id="generateButton">Generate Affirmation</button>
@@ -103,161 +101,181 @@
   <div class="footer">Made by <a href="https://eatsleepbreathesuccess.com" target="_blank">EatSleepBreatheSuccess.com</a></div>
 
   <script>
-    const canvas = document.getElementById('nightSky');
+    const canvas = document.getElementById('backgroundCanvas');
     const ctx = canvas.getContext('2d');
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const affirmations = [
-      "I am worthy of success and happiness.",
-      "Every day, in every way, I am getting better and better.",
-      "I attract abundance and prosperity effortlessly.",
-      "My mind is clear, focused, and full of positive energy.",
-      "I am confident in my ability to create the life I desire.",
-      "I radiate love, peace, and positivity.",
-      "I am aligned with my highest purpose and path.",
-      "Every challenge I face is an opportunity to grow and improve.",
-      "I am grateful for all that I have and all that is to come.",
-      "I trust the process of life and embrace its flow.",
-    ];
-
     const numbers = [];
     const diamonds = [];
-    const connections = [];
-    const numberList = [3, 6, 9];
+    const lines = [];
+    const numberColors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#33FFF5', '#FFC300'];
+    const affirmations = [
+      "I am worthy of success and happiness.",
+      "I am confident in my ability to create the life I desire.",
+      "Every challenge I face is an opportunity to grow and improve.",
+      "I attract abundance and prosperity effortlessly.",
+      "I am grateful for the opportunities that come my way.",
+      "I radiate love, peace, and positivity.",
+      "I trust the process of life and embrace its flow.",
+      "I am resilient, strong, and unstoppable.",
+      "My potential is limitless, and I am always learning.",
+      "I choose to focus on the positive aspects of my life.",
+      "I am a magnet for success and achievement.",
+      "I let go of fear and embrace courage and determination.",
+      "I am calm, centered, and balanced.",
+      "I am aligned with my highest purpose and path.",
+      "I am deserving of all good things life has to offer.",
+      "I am surrounded by supportive and loving people.",
+      "I am in control of my thoughts and emotions.",
+      "I am grateful for all that I have and all that is to come.",
+      "I let go of fear and embrace courage and determination.",
+      "I am a unique, special, and valuable individual."
+    ];
 
     function random(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-   class DiamondPoint {
-  constructor(x, y, size, offset) {
-    this.x = x;
-    this.y = y;
-    this.size = size;
-    this.offset = offset; // Phase offset for pulsation
-    this.angle = 0;
-  }
+    class RotatingNumber {
+      constructor(x, y, size, value, color) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.value = value;
+        this.color = color;
+        this.angle = 0;
+      }
 
-  draw() {
-    const dynamicSize = this.size + Math.sin(this.angle + this.offset) * 3; // Pulsation effect
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.beginPath();
-    ctx.moveTo(0, -dynamicSize / 2);
-    ctx.lineTo(dynamicSize / 2, 0);
-    ctx.lineTo(0, dynamicSize / 2);
-    ctx.lineTo(-dynamicSize / 2, 0);
-    ctx.closePath();
-    ctx.fillStyle = '#FFFFFF';
-    ctx.fill();
-    ctx.restore();
-  }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.fillStyle = this.color;
+        ctx.font = `${this.size}px Arial`;
+        ctx.fillText(this.value, 0, 0);
+        ctx.restore();
+      }
 
-  update() {
-    this.angle += 0.02; // Adjust the speed of pulsation
-  }
-} 
-// Update this section where you initialize diamonds
-for (let i = 0; i < 169; i++) {
-  const x = random(0, canvas.width);
-  const y = random(0, canvas.height);
-  const size = random(5, 10);
-  const offset = random(0, Math.PI * 2); // Random phase offset
-  diamonds.push(new DiamondPoint(x, y, size, offset));
-}
-    class NumberPoint {
-  constructor(x, y, size, value) {
-    this.x = x;
-    this.y = y;
-    this.size = size;
-    this.value = value;
-    this.angle = 0;
-    this.color = this.getRandomBIVColor();
-  }
+      update() {
+        this.angle += 0.01;
+        this.size = Math.abs(Math.sin(this.angle)) * 15 + 10; // Pulsation
+      }
+    }
 
-  getRandomBIVColor() {
-    const bivColors = ['#0000FF', '#4B0082', '#8A2BE2', '#9400D3', '#9932CC', '#8B00FF'];
-    return bivColors[Math.floor(Math.random() * bivColors.length)];
-  }
+    class Diamond {
+      constructor(x, y, size, offset) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.offset = offset;
+        this.angle = 0;
+      }
 
-  draw() {
-    ctx.save();
-    ctx.translate(this.x, this.y);
-    ctx.rotate(this.angle);
-    ctx.font = `${this.size}px Arial`;
-    ctx.fillStyle = this.color;
-    ctx.fillText(this.value, 0, 0);
-    ctx.restore();
-  }
-
-  update() {
-    this.angle += 0.01;
-  }
-}
-
-    function connectPoints() {
-      ctx.strokeStyle = `rgba(255, 255, 255, 0.2)`;
-      ctx.lineWidth = 1;
-      connections.forEach(({ start, end }) => {
+      draw() {
+        const dynamicSize = this.size + Math.sin(this.angle + this.offset) * 3; // Pulsation
+        ctx.save();
+        ctx.translate(this.x, this.y);
         ctx.beginPath();
-        ctx.moveTo(start.x, start.y);
-        ctx.lineTo(end.x, end.y);
-        ctx.stroke();
-      });
+        ctx.moveTo(0, -dynamicSize / 2);
+        ctx.lineTo(dynamicSize / 2, 0);
+        ctx.lineTo(0, dynamicSize / 2);
+        ctx.lineTo(-dynamicSize / 2, 0);
+        ctx.closePath();
+        ctx.fillStyle = '#FFFFFF';
+        ctx.fill();
+        ctx.restore();
+      }
+
+      update() {
+        this.angle += 0.02; // Adjust pulsation speed
+      }
+    }
+
+    function connectLines(pointA, pointB) {
+      ctx.stroke      Style = `rgba(255, 255, 255, 0.1)`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pointA.x, pointA.y);
+      ctx.lineTo(pointB.x, pointB.y);
+      ctx.stroke();
     }
 
     function initElements() {
+      // Generate rotating numbers
       for (let i = 0; i < 100; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
-        const size = random(10, 20);
-        const value = numberList[i % numberList.length];
-        const num = new NumberPoint(x, y, size, value);
-        numbers.push(num);
+        const size = random(14, 20);
+        const value = [3, 6, 9][Math.floor(Math.random() * 3)]; // Random 3, 6, 9
+        const color = numberColors[Math.floor(Math.random() * numberColors.length)];
+        numbers.push(new RotatingNumber(x, y, size, value, color));
       }
 
+      // Generate diamonds
       for (let i = 0; i < 50; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
-        const size = random(5, 10);
-        const diamond = new Diamond(x, y, size);
-        diamonds.push(diamond);
+        const size = random(8, 12);
+        const offset = random(0, Math.PI * 2); // Offset for alternating pulsation
+        diamonds.push(new Diamond(x, y, size, offset));
       }
 
-      numbers.forEach((num, i) => {
-        if (i < numbers.length - 1) {
-          connections.push({ start: num, end: numbers[i + 1] });
-        }
-      });
+      // Connect lines between numbers and diamonds
+      for (let i = 0; i < numbers.length - 1; i++) {
+        lines.push({ pointA: numbers[i], pointB: numbers[i + 1] });
+      }
     }
 
-    function animateElements() {
+    function animate() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw and update numbers
       numbers.forEach((num) => {
         num.update();
         num.draw();
       });
+
+      // Draw and update diamonds
       diamonds.forEach((diamond) => {
         diamond.update();
         diamond.draw();
       });
-      connectPoints();
-      requestAnimationFrame(animateElements);
+
+      // Draw connections
+      lines.forEach(({ pointA, pointB }) => {
+        connectLines(pointA, pointB);
+      });
+
+      requestAnimationFrame(animate);
     }
 
     function generateAffirmation() {
       const affirmationDisplay = document.getElementById('affirmationDisplay');
       const randomIndex = Math.floor(Math.random() * affirmations.length);
       affirmationDisplay.textContent = affirmations[randomIndex];
+      affirmationDisplay.style.color = numberColors[Math.floor(Math.random() * numberColors.length)];
     }
 
-    // Initialize
+    // Initialize canvas and elements
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
     initElements();
-    animateElements();
+    animate();
 
-    // Add Event Listener for Affirmation Button
-    document.getElementById('generateButton').addEventListener('click', generateAffirmation);
+    // Generate affirmation event listener
+    const generateButton = document.getElementById('generateButton');
+    generateButton.addEventListener('click', generateAffirmation);
+
+    // Adjust canvas size on window resize
+    window.addEventListener('resize', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      numbers.length = 0;
+      diamonds.length = 0;
+      lines.length = 0;
+      initElements();
+    });
   </script>
 </body>
 </html>
