@@ -129,12 +129,13 @@
       "I am a magnet for success and achievement.",
       "I am calm, centered, and balanced.",
       "I am grateful for the opportunities that come my way.",
-      // Add remaining affirmations...
     ];
 
     const stars = [];
     const diamonds = [];
-    const colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#33FFF5', '#FFC300'];
+    const numbers = [];
+    const connections = [];
+    const numberList = [3, 6, 9];
 
     function random(min, max) {
       return Math.random() * (max - min) + min;
@@ -150,7 +151,7 @@
       draw() {
         ctx.beginPath();
         ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
+        ctx.fillStyle = '#ffffff';
         ctx.fill();
       }
     }
@@ -160,40 +161,85 @@
         this.x = x;
         this.y = y;
         this.size = size;
+        this.angle = 0;
       }
 
       draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
         ctx.beginPath();
-        ctx.moveTo(this.x, this.y - this.size / 2);
-        ctx.lineTo(this.x + this.size / 2, this.y);
-        ctx.lineTo(this.x, this.y + this.size / 2);
-        ctx.lineTo(this.x - this.size / 2, this.y);
+        ctx.moveTo(0, -this.size / 2);
+        ctx.lineTo(this.size / 2, 0);
+        ctx.lineTo(0, this.size / 2);
+        ctx.lineTo(-this.size / 2, 0);
         ctx.closePath();
-        ctx.fillStyle = '#ffffff';
+        ctx.fillStyle = '#00ffff';
         ctx.fill();
+        ctx.restore();
+      }
+
+      update() {
+        this.angle += 0.01;
       }
     }
 
-    function initElements() {
-      for (let i = 0; i < 200; i++) { // Add 369 stars
-        const x = random(0, canvas.width);
-        const y = random(0, canvas.height);
-        const size = random(0.5, 2);
-        stars.push(new Star(x, y, size));
+    class NumberPoint {
+      constructor(x, y, size, value) {
+        this.x = x;
+        this.y = y;
+        this.size = size;
+        this.value = value;
       }
 
-      for (let i = 0; i < 169; i++) { // Add 169 diamonds
+      draw() {
+        ctx.font = `${this.size}px Arial`;
+        ctx.fillStyle = '#ff00ff';
+        ctx.fillText(this.value, this.x, this.y);
+      }
+    }
+
+    function connectPoints() {
+      connections.forEach((line) => {
+        ctx.beginPath();
+        ctx.moveTo(line.start.x, line.start.y);
+        ctx.lineTo(line.end.x, line.end.y);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.stroke();
+      });
+    }
+
+    function initElements() {
+      for (let i = 0; i < 100; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
-        const size = random(5, 10);
+        const size = random(10, 20);
+        const value = numberList[i % numberList.length];
+        numbers.push(new NumberPoint(x, y, size, value));
+      }
+
+      for (let i = 0; i < 50; i++) {
+        const x = random(0, canvas.width);
+        const y = random(0, canvas.height);
+        const size = random(10, 20);
         diamonds.push(new Diamond(x, y, size));
       }
+
+      numbers.forEach((num, i) => {
+        if (i < numbers.length - 1) {
+          connections.push({ start: num, end: numbers[i + 1] });
+        }
+      });
     }
 
     function animateElements() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      stars.forEach((star) => star.draw());
-      diamonds.forEach((diamond) => diamond.draw());
+      numbers.forEach((num) => num.draw());
+      diamonds.forEach((diamond) => {
+        diamond.update();
+        diamond.draw();
+      });
+      connectPoints();
       requestAnimationFrame(animateElements);
     }
 
@@ -201,16 +247,12 @@
       const affirmationDisplay = document.getElementById('affirmationDisplay');
       const randomIndex = Math.floor(Math.random() * affirmations.length);
       affirmationDisplay.textContent = affirmations[randomIndex];
-      affirmationDisplay.style.color = colors[Math.floor(Math.random() * colors.length)];
     }
 
-    // Initialize and animate
     initElements();
     animateElements();
 
-    // Add event listener for the button
-    const generateButton = document.getElementById('generateButton');
-    generateButton.addEventListener('click', generateAffirmation);
+    document.getElementById('generateButton').addEventListener('click', generateAffirmation);
   </script>
 </body>
 </html>
