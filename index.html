@@ -71,7 +71,7 @@
 
     const stars = [];
     const diamonds = [];
-    const shootingStars = [];
+    let shootingStar = null;
     const numberList = [3, 6, 9];
     const colors = ['#ffffff', '#ffcc00', '#66ff66'];
 
@@ -100,7 +100,7 @@
       }
 
       update() {
-        this.angle += 0.01;
+        this.angle += 0.02;
         this.size = Math.abs(Math.sin(this.angle * this.pulsateSpeed)) * 15 + 10;
       }
     }
@@ -110,28 +110,17 @@
         this.x = x;
         this.y = y;
         this.size = size;
-        this.angle = 0;
-        this.pulsateSpeed = Math.random() * 0.02 + 0.01;
       }
 
       draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
         ctx.beginPath();
-        ctx.moveTo(0, -this.size / 2);
-        ctx.lineTo(this.size / 2, 0);
-        ctx.lineTo(0, this.size / 2);
-        ctx.lineTo(-this.size / 2, 0);
+        ctx.moveTo(this.x, this.y - this.size / 2);
+        ctx.lineTo(this.x + this.size / 2, this.y);
+        ctx.lineTo(this.x, this.y + this.size / 2);
+        ctx.lineTo(this.x - this.size / 2, this.y);
         ctx.closePath();
         ctx.fillStyle = '#ffffff';
         ctx.fill();
-        ctx.restore();
-      }
-
-      update() {
-        this.angle += 0.01;
-        this.size = Math.abs(Math.sin(this.angle * this.pulsateSpeed)) * 8 + 5;
       }
     }
 
@@ -155,26 +144,40 @@
         ctx.lineTo(this.x - this.dx * this.length, this.y - this.dy * this.length);
         ctx.stroke();
         ctx.shadowBlur = 0;
+
+        // Glowing head
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.fill();
       }
 
       update() {
         this.x += this.dx;
         this.y += this.dy;
-        this.opacity -= 0.005;
+        this.opacity -= 0.01;
         if (this.opacity <= 0) {
-          const index = shootingStars.indexOf(this);
-          if (index > -1) shootingStars.splice(index, 1);
+          shootingStar = null;
         }
       }
     }
 
     function createShootingStar() {
-      const x = Math.random() > 0.5 ? random(0, canvas.width) : random(canvas.width, 0);
-      const y = Math.random() > 0.5 ? random(0, canvas.height / 2) : canvas.height;
-      const dx = random(-2, 2);
+      const x = random(0, canvas.width);
+      const y = random(canvas.height / 2, canvas.height);
+      const dx = random(-3, -1);
       const dy = random(-3, -1);
-      const length = random(100, 300);
-      shootingStars.push(new ShootingStar(x, y, dx, dy, length));
+      const length = random(100, 200);
+      shootingStar = new ShootingStar(x, y, dx, dy, length);
+    }
+
+    function connectPoints(pointA, pointB) {
+      ctx.strokeStyle = `rgba(255, 255, 255, 0.1)`;
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(pointA.x, pointA.y);
+      ctx.lineTo(pointB.x, pointB.y);
+      ctx.stroke();
     }
 
     function init() {
@@ -186,6 +189,12 @@
         stars.push(new Star(x, y, size, value));
       }
 
+      for (let i = 0; i < stars.length - 1; i++) {
+        const pointA = stars[i];
+        const pointB = stars[i + 1];
+        connectPoints(pointA, pointB);
+      }
+
       for (let i = 0; i < 75; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
@@ -194,8 +203,8 @@
       }
 
       setInterval(() => {
-        createShootingStar();
-      }, 5000); // Shooting star every 5 seconds
+        if (!shootingStar) createShootingStar();
+      }, 5000);
     }
 
     function animate() {
@@ -206,14 +215,13 @@
       });
 
       diamonds.forEach((diamond) => {
-        diamond.update();
         diamond.draw();
       });
 
-      shootingStars.forEach((star) => {
-        star.update();
-        star.draw();
-      });
+      if (shootingStar) {
+        shootingStar.update();
+        shootingStar.draw();
+      }
 
       requestAnimationFrame(animate);
     }
@@ -223,7 +231,6 @@
       canvas.height = window.innerHeight;
       stars.length = 0;
       diamonds.length = 0;
-      shootingStars.length = 0;
       init();
     });
 
