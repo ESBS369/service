@@ -65,27 +65,25 @@
       width: 100%;
       height: 100%;
       z-index: 0;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
     }
 
-    .background .shape {
-      font-size: 2rem;
-      font-weight: bold;
-      color: black;
-      margin: 15px;
+    .shape-container {
+      position: absolute;
       animation: float 10s infinite ease-in-out;
     }
 
-    .background .diamond {
+    .shape {
+      font-size: 2rem;
+      font-weight: bold;
+      color: black;
+      animation: float 10s infinite ease-in-out;
+    }
+
+    .diamond {
       width: 15px;
       height: 15px;
       background-color: black;
       transform: rotate(45deg);
-      margin: 15px;
       animation: float 10s infinite ease-in-out;
     }
 
@@ -100,20 +98,41 @@
   <h1>Fullfeelment App</h1>
 
   <!-- Dynamic Background -->
-  <div class="background">
-    <!-- Populate 369 and Diamonds Dynamically -->
+  <div class="background" id="background">
     <script>
-      const background = document.querySelector('.background');
-      for (let i = 0; i < 200; i++) {
-        const element = document.createElement('div');
-        if (i % 5 === 0) {
-          element.className = 'shape';
-          element.textContent = i % 15 === 0 ? '9' : i % 10 === 0 ? '6' : '3';
-        } else {
-          element.className = 'diamond';
+      const background = document.getElementById('background');
+
+      const generateDiagonalShapes = () => {
+        const rows = 15; // Number of rows
+        const cols = 15; // Number of columns
+
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
+            // Position the shapes diagonally
+            const left = col * 7 + row * 7 + "%";
+            const top = row * 7 + "%";
+
+            const container = document.createElement('div');
+            container.className = 'shape-container';
+            container.style.left = left;
+            container.style.top = top;
+
+            // Alternate between 369 and diamonds
+            const shape = document.createElement('div');
+            if ((row + col) % 2 === 0) {
+              shape.className = 'shape';
+              shape.textContent = (row + col) % 3 === 0 ? '3' : (row + col) % 3 === 1 ? '6' : '9';
+            } else {
+              shape.className = 'diamond';
+            }
+
+            container.appendChild(shape);
+            background.appendChild(container);
+          }
         }
-        background.appendChild(element);
-      }
+      };
+
+      generateDiagonalShapes();
     </script>
   </div>
 
