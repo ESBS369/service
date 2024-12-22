@@ -202,5 +202,78 @@
       scene.add(globe);
 
       camera.position.z = 3;
+      // Health Facts Generator
+      const healthFacts = [
+        "Drink water to stay hydrated.",
+        "Walking daily improves cardiovascular health.",
+        "Leafy greens provide essential nutrients.",
+        // Add the remaining 97 health facts here
+      ];
 
+      function generateFact() {
+        const randomIndex = Math.floor(Math.random() * healthFacts.length);
+        document.getElementById("fact-box").textContent = healthFacts[randomIndex];
+      }
+
+      // Horoscope Generator
+      const horoscopes = {
+        Aries: ["Today is a great day to start something new.", "Take risks and believe in yourself.", /* Add more */],
+        Taurus: ["Focus on stability and relationships.", "A calm approach will yield results.", /* Add more */],
+        Gemini: ["Communication will bring you clarity.", "An unexpected opportunity is coming.", /* Add more */],
+        // Add horoscopes for all signs with 100 entries each
+      };
+
+      function generateHoroscope() {
+        const sign = document.getElementById("sun-sign").value;
+        if (horoscopes[sign]) {
+          const randomIndex = Math.floor(Math.random() * horoscopes[sign].length);
+          document.getElementById("horoscope-output").textContent = horoscopes[sign][randomIndex];
+        } else {
+          document.getElementById("horoscope-output").textContent = "Please select a sun sign.";
+        }
+      }
+
+      // Affirmations Generator
+      const affirmations = [
+        "You are capable of achieving greatness.",
+        "Every day is a new opportunity to grow.",
+        "Believe in yourself and all that you are.",
+        // Add the remaining 97 affirmations here
+      ];
+
+      function generateAffirmation() {
+        const name = document.getElementById("name-input").value || "You";
+        const randomIndex = Math.floor(Math.random() * affirmations.length);
+        document.getElementById("affirmation-output").textContent = `${name}, ${affirmations[randomIndex]}`;
+      }
+
+      // Moon Phase
+      function updateMoonPhase() {
+        const moonPhases = [
+          { phase: "New Moon", color: "darkgray" },
+          { phase: "First Quarter", color: "lightgray" },
+          { phase: "Full Moon", color: "white" },
+          { phase: "Last Quarter", color: "silver" },
+        ];
+        const phaseIndex = new Date().getDate() % moonPhases.length;
+        const moon = moonPhases[phaseIndex];
+
+        document.getElementById("ai-moon").style.background = moon.color;
+        document.getElementById("moon-phase-name").innerText = moon.phase;
+      }
+      updateMoonPhase();
+
+      // Local Weather
+      function updateWeather() {
+        navigator.geolocation.getCurrentPosition(position => {
+          const { latitude, longitude } = position.coords;
+          document.getElementById("local-weather").innerText = `Your location: Latitude ${latitude}, Longitude ${longitude}.`;
+        });
+      }
+      updateWeather();
+    }
+    initWorldClock();
+  </script>
+</body>
+</html>
      
