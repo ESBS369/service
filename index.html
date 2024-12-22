@@ -119,21 +119,10 @@
       "Every challenge I face is an opportunity to grow and improve.",
       "I am grateful for all that I have and all that is to come.",
       "I trust the process of life and embrace its flow.",
-      "I am resilient, strong, and unstoppable.",
-      "I am surrounded by supportive and loving people.",
-      "I am deserving of all good things life has to offer.",
-      "I let go of fear and embrace courage and determination.",
-      "I am in control of my thoughts and emotions.",
-      "My potential is limitless, and I am always learning.",
-      "I choose to focus on the positive aspects of my life.",
-      "I am a magnet for success and achievement.",
-      "I am calm, centered, and balanced.",
-      "I am grateful for the opportunities that come my way.",
     ];
 
-    const stars = [];
-    const diamonds = [];
     const numbers = [];
+    const diamonds = [];
     const connections = [];
     const numberList = [3, 6, 9];
 
@@ -141,46 +130,29 @@
       return Math.random() * (max - min) + min;
     }
 
-    class Star {
-      constructor(x, y, size) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-      }
-
-      draw() {
-        ctx.beginPath();
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fillStyle = '#ffffff';
-        ctx.fill();
-      }
-    }
-
     class Diamond {
       constructor(x, y, size) {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.angle = 0;
+        this.pulse = 0;
       }
 
       draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
         ctx.beginPath();
-        ctx.moveTo(0, -this.size / 2);
-        ctx.lineTo(this.size / 2, 0);
-        ctx.lineTo(0, this.size / 2);
-        ctx.lineTo(-this.size / 2, 0);
+        ctx.moveTo(this.x, this.y - this.size / 2);
+        ctx.lineTo(this.x + this.size / 2, this.y);
+        ctx.lineTo(this.x, this.y + this.size / 2);
+        ctx.lineTo(this.x - this.size / 2, this.y);
         ctx.closePath();
-        ctx.fillStyle = '#00ffff';
+        ctx.fillStyle = '#ffffff';
+        ctx.globalAlpha = 0.5 + Math.sin(this.pulse) * 0.5;
         ctx.fill();
-        ctx.restore();
+        ctx.globalAlpha = 1;
       }
 
       update() {
-        this.angle += 0.01;
+        this.pulse += 0.05;
       }
     }
 
@@ -190,21 +162,31 @@
         this.y = y;
         this.size = size;
         this.value = value;
+        this.angle = 0;
       }
 
       draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
         ctx.font = `${this.size}px Arial`;
         ctx.fillStyle = '#ff00ff';
-        ctx.fillText(this.value, this.x, this.y);
+        ctx.fillText(this.value, 0, 0);
+        ctx.restore();
+      }
+
+      update() {
+        this.angle += 0.01;
       }
     }
 
     function connectPoints() {
-      connections.forEach((line) => {
+      ctx.strokeStyle = `rgba(255, 255, 255, 0.2)`;
+      ctx.lineWidth = 1;
+      connections.forEach(({ start, end }) => {
         ctx.beginPath();
-        ctx.moveTo(line.start.x, line.start.y);
-        ctx.lineTo(line.end.x, line.end.y);
-        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.moveTo(start.x, start.y);
+        ctx.lineTo(end.x, end.y);
         ctx.stroke();
       });
     }
@@ -215,14 +197,16 @@
         const y = random(0, canvas.height);
         const size = random(10, 20);
         const value = numberList[i % numberList.length];
-        numbers.push(new NumberPoint(x, y, size, value));
+        const num = new NumberPoint(x, y, size, value);
+        numbers.push(num);
       }
 
       for (let i = 0; i < 50; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
-        const size = random(10, 20);
-        diamonds.push(new Diamond(x, y, size));
+        const size = random(5, 10);
+        const diamond = new Diamond(x, y, size);
+        diamonds.push(diamond);
       }
 
       numbers.forEach((num, i) => {
@@ -234,7 +218,10 @@
 
     function animateElements() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      numbers.forEach((num) => num.draw());
+      numbers.forEach((num) => {
+        num.update();
+        num.draw();
+      });
       diamonds.forEach((diamond) => {
         diamond.update();
         diamond.draw();
@@ -249,9 +236,11 @@
       affirmationDisplay.textContent = affirmations[randomIndex];
     }
 
+    // Initialize
     initElements();
     animateElements();
 
+    // Add Event Listener for Affirmation Button
     document.getElementById('generateButton').addEventListener('click', generateAffirmation);
   </script>
 </body>
