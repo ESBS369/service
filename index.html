@@ -193,3 +193,161 @@
   </script>
 </body>
 </html>
+<div class="affirmation-section">
+  <h2>Affirmation Generator</h2>
+  <button onclick="generateAffirmation()">Generate Affirmation</button>
+  <p id="affirmation-output">Click the button to see your affirmation!</p>
+</div>
+
+<script>
+  const affirmations = [
+    "I am capable of achieving greatness.",
+    "My hard work and dedication always pay off.",
+    "I am strong, resilient, and unstoppable.",
+    "Abundance flows to me effortlessly.",
+    "I am worthy of all the success I dream of.",
+    "Every day, I am getting closer to my goals.",
+    "I radiate positivity and attract good things.",
+    "I have the power to create my own destiny.",
+    "Challenges are opportunities for me to grow.",
+    "My mindset determines my success.",
+    "I am surrounded by endless possibilities.",
+    "My unique talents are my greatest asset.",
+    "The universe is conspiring in my favor.",
+    "My dreams are valid and achievable.",
+    "I am enough just as I am.",
+    "My potential is limitless.",
+    "I am grateful for all that I have.",
+    "I attract success and happiness into my life.",
+    "I deserve love, success, and joy.",
+    "I am building a life I love.",
+    "Every step I take brings me closer to my dreams.",
+    "I am the architect of my future.",
+    "I am stronger than any obstacle.",
+    "I am open to receiving abundance.",
+    "I inspire those around me.",
+    "I am constantly evolving and improving.",
+    "Success comes naturally to me.",
+    "I am a magnet for positive energy.",
+    "My efforts are always rewarded.",
+    "I have the courage to take risks.",
+    "I am confident and unstoppable.",
+    "I am worthy of all the good in life.",
+    "I attract opportunities every day.",
+    "I am aligned with my purpose.",
+    "I am the master of my thoughts.",
+    "I am free from self-doubt.",
+    "I am surrounded by supportive people.",
+    "I am in charge of my happiness.",
+    "I am at peace with my past.",
+    "I am growing stronger every day.",
+    "I am grateful for each new day.",
+    "I am capable of creating wealth.",
+    "I am in harmony with the universe.",
+    "I am destined for greatness.",
+    "I trust myself and my decisions.",
+    "I am a beacon of light and love.",
+    "I achieve my goals with ease.",
+    "I have the power to overcome anything.",
+    "I am creating a legacy of success.",
+    "I am in control of my destiny.",
+    "I am becoming the best version of myself.",
+    "I am enough, just as I am.",
+    "I am open to receiving miracles.",
+    "I attract abundance into my life.",
+    "I am thriving in all areas of life.",
+    "I am a source of inspiration to others.",
+    "I am proud of how far I’ve come.",
+    "I am resilient and unstoppable.",
+    "I am a force for good in the world.",
+    "I am worthy of all my desires.",
+    "I am focused, determined, and successful.",
+    "I am grateful for my journey.",
+    "I am creating my dream life.",
+    "I am worthy of every blessing.",
+    "I am confident in my abilities.",
+    "I am growing wiser every day.",
+    "I am living my purpose.",
+    "I am surrounded by love and light.",
+    "I am unstoppable in the face of challenges.",
+    "I am deserving of success and happiness.",
+    "I am stepping into my power.",
+    "I am manifesting my dreams effortlessly.",
+    "I attract wealth and prosperity.",
+    "I am loved and supported by the universe.",
+    "I am creating a life of abundance.",
+    "I am the author of my story.",
+    "I am fearless and bold.",
+    "I am grateful for my endless potential.",
+    "I am worthy of achieving my dreams.",
+    "I am in control of my thoughts and emotions.",
+    "I am a magnet for happiness and joy.",
+    "I am open to endless possibilities.",
+    "I am proud of my accomplishments.",
+    "I am building a successful future.",
+    "I am worthy of unconditional love.",
+    "I am capable of amazing things.",
+    "I attract positive experiences.",
+    "I am surrounded by abundance.",
+    "I radiate confidence and positivity.",
+    "I achieve my goals with grace.",
+    "I am worthy of living my best life.",
+    "I am a creator of my own reality.",
+    "I am embracing my unique journey.",
+    "I am blessed beyond measure.",
+    "I am living with purpose and passion."
+  ];
+
+  function generateAffirmation() {
+    const randomIndex = Math.floor(Math.random() * affirmations.length);
+    document.getElementById("affirmation-output").innerText = affirmations[randomIndex];
+  }
+</script>
+
+<style>
+  .affirmation-section {
+    margin: 20px auto;
+    text-align: center;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 500px;
+    position: relative;
+    overflow: hidden;
+    animation: colorCycle 20s infinite alternate;
+  }
+
+  .affirmation-section h2 {
+    color: white;
+    font-size: 24px;
+  }
+
+  .affirmation-section button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+  }
+
+  .affirmation-section button:hover {
+    background-color: #45a049;
+  }
+
+  #affirmation-output {
+    margin-top: 20px;
+    font-size: 18px;
+    font-style: italic;
+    color: white;
+  }
+
+  @keyframes colorCycle {
+    0% { background-color: #ff5722; color: black; } /* Orange */
+    25% { background-color: #4caf50; color: white; } /* Green */
+    50% { background-color: #2196f3; color: white; } /* Blue */
+    75% { background-color: #6a1b9a; color: white; } /* Purple */
+    100% { background-color: #f57c00; color: black; } /* Orange */
+  }
+</style>
