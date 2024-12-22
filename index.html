@@ -5,88 +5,48 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fullfeelment App</title>
   <style>
+    /* General Styles */
     body {
       margin: 0;
+      padding: 0;
       font-family: 'Arial', sans-serif;
-      text-align: center;
-      overflow-y: auto;
-      position: relative;
-      animation: colorCycle 30s infinite alternate;
-      background: radial-gradient(circle, rgba(0,0,0,0.8), rgba(0,0,0,0.5));
+      overflow: hidden; /* Prevent unwanted scrollbars */
+      animation: colorCycle 10s infinite alternate;
     }
 
     @keyframes colorCycle {
-      0% { background-color: #ff5722; color: black; }
-      20% { background-color: #ffeb3b; color: black; }
-      40% { background-color: #4caf50; color: white; }
-      60% { background-color: #2196f3; color: white; }
-      80% { background-color: #6a1b9a; color: white; }
-      100% { background-color: #d32f2f; color: white; }
+      0% { background-color: #ff5722; } /* Orange */
+      20% { background-color: #ffeb3b; } /* Yellow */
+      40% { background-color: #4caf50; } /* Green */
+      60% { background-color: #2196f3; } /* Blue */
+      80% { background-color: #6a1b9a; } /* Indigo */
+      100% { background-color: #d32f2f; } /* Red */
     }
 
-    .background-369 {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-      align-items: center;
-      opacity: 0.1;
-      pointer-events: none;
-    }
-
-    .background-369 span {
-      font-size: 2rem;
-      font-weight: bold;
-      color: rgba(255, 255, 255, 0.2);
-      transform: rotate(45deg);
+    .dynamic-content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 20px;
     }
 
     h1 {
-      color: gold;
-      text-shadow: 2px 2px 5px black;
-    }
-
-    .container {
-      padding: 20px;
-    }
-
-    .section {
-      margin: 20px auto;
-      padding: 20px;
-      max-width: 800px;
-      background: rgba(0, 0, 0, 0.7);
-      border-radius: 15px;
-      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.3);
-    }
-
-    .section h2 {
-      color: gold;
-    }
-
-    button, select {
-      margin: 10px;
-      padding: 10px 20px;
-      background: #4caf50;
       color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-
-    button:hover, select:hover {
-      background: #45a049;
+      text-shadow: 2px 2px 5px black;
+      font-size: 2.5rem;
+      margin-top: 20px;
+      animation: textColorChange 10s infinite alternate;
     }
 
     footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: gold;
+      position: fixed;
+      bottom: 10px;
+      width: 100%;
+      text-align: center;
+      font-size: 1rem;
+      color: white;
+      text-shadow: 1px 1px 3px black;
+      animation: textColorChange 10s infinite alternate;
     }
 
     footer a {
@@ -98,332 +58,73 @@
       text-decoration: underline;
     }
 
-    .world-globe, .ai-moon {
-      margin: 0 auto;
-      width: 300px;
-      height: 300px;
+    @keyframes textColorChange {
+      0%, 100% { color: black; }
+      50% { color: white; }
     }
 
-    .ai-moon {
-      border-radius: 50%;
-      box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+    /* 369 and Diamonds Background */
+    .background {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
     }
-  </style>
-</head>
-<body>
-  <div class="background-369">
-    <span>3</span><span>6</span><span>9</span><span>3</span><span>6</span><span>9</span>
-  </div>
 
-  <div class="container">
-    <h1>Fullfeelment App</h1>
-
-    <!-- World Clock and Local Weather -->
-    <div class="section">
-      <h2>World Clock & Local Weather</h2>
-      <div id="world-clock-globe" class="world-globe"></div>
-      <p id="local-weather">Loading local weather...</p>
-    </div>
-
-    <!-- Moon Phase -->
-    <div class="section">
-      <div id="ai-moon" class="ai-moon"></div>
-      <p id="moon-phase-name">Loading moon phase...</p>
-    </div>
-
-    <!-- Horoscope Generator -->
-    <div class="section">
-      <h2>Horoscope Generator</h2>
-      <select id="sun-sign">
-        <option value="" disabled selected>Select your sun sign</option>
-        <option value="Aries">Aries</option>
-        <option value="Taurus">Taurus</option>
-        <option value="Gemini">Gemini</option>
-        <option value="Cancer">Cancer</option>
-        <option value="Leo">Leo</option>
-        <option value="Virgo">Virgo</option>
-        <option value="Libra">Libra</option>
-        <option value="Scorpio">Scorpio</option>
-        <option value="Sagittarius">Sagittarius</option>
-        <option value="Capricorn">Capricorn</option>
-        <option value="Aquarius">Aquarius</option>
-        <option value="Pisces">Pisces</option>
-      </select>
-      <button onclick="generateHoroscope()">Generate Horoscope</button>
-      <p id="horoscope-output">Your daily horoscope will appear here.</p>
-    </div>
-
-    <!-- Healing Frequencies -->
-    <div class="section">
-      <h2>Healing Frequencies</h2>
-      <select id="frequency-select">
-        <option value="528Hz.mp3">528Hz - Heal DNA</option>
-        <option value="741Hz.mp3">741Hz - Cleanse</option>
-        <!-- Add more frequencies -->
-      </select>
-      <button onclick="playFrequency()">Play Frequency</button>
-      <audio id="frequency-player" controls></audio>
-    </div>
-
-    <!-- Health Facts -->
-    <div class="section">
-      <h2>Health Facts Generator</h2>
-      <div id="fact-box">Click the button to see a random health fact!</div>
-      <button onclick="generateFact()">Get a Health Fact</button>
-    </div><!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Health Facts Generator</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      padding: 20px;
-      background: linear-gradient(135deg, #d4fc79, #96e6a1);
-      color: #333;
-    }
-    #fact-box {
+    .background .shape {
+      position: absolute;
       font-size: 1.5rem;
-      margin: 20px auto;
-      padding: 20px;
-      max-width: 600px;
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      color: rgba(255, 255, 255, 0.2);
+      animation: float 10s infinite linear;
     }
-    button {
-      padding: 10px 20px;
-      font-size: 1rem;
-      color: #fff;
-      background: #28a745;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      transition: background 0.3s;
+
+    .background .diamond {
+      width: 10px;
+      height: 10px;
+      background-color: rgba(255, 255, 255, 0.2);
+      transform: rotate(45deg);
+      position: absolute;
+      animation: float 10s infinite linear;
     }
-    button:hover {
-      background: #218838;
+
+    @keyframes float {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+      100% { transform: translateY(0) rotate(360deg); }
     }
   </style>
 </head>
 <body>
-  <h1>Health Facts Generator</h1>
-  <div id="fact-box">Click the button to see a random health fact!</div>
-  <button onclick="generateFact()">Get a Health Fact</button>
+  <!-- Dynamic Background -->
+  <div class="background">
+    <!-- 369 Shapes -->
+    <div class="shape" style="top: 10%; left: 15%;">3</div>
+    <div class="shape" style="top: 20%; left: 25%;">6</div>
+    <div class="shape" style="top: 30%; left: 35%;">9</div>
+    <div class="shape" style="top: 40%; left: 45%;">3</div>
+    <div class="shape" style="top: 50%; left: 55%;">6</div>
+    <div class="shape" style="top: 60%; left: 65%;">9</div>
 
-  <script>
-    const healthFacts = [
-      "Drink water to stay hydrated.",
-      "Walking daily improves cardiovascular health.",
-      "Leafy greens provide essential nutrients.",
-      "Stretching improves flexibility and reduces injuries.",
-      "Deep breathing lowers blood pressure.",
-      "Meditation reduces stress and increases focus.",
-      "Eating whole grains boosts long-lasting energy.",
-      "Omega-3 fatty acids improve brain function.",
-      "Sleeping 7–9 hours boosts immunity.",
-      "Probiotic foods support gut health.",
-      "Avoiding added sugars reduces diabetes risk.",
-      "Daily sunlight improves Vitamin D levels.",
-      "Dark chocolate is heart-healthy in moderation.",
-      "Lemon water helps digestion.",
-      "Ginger tea relieves nausea and inflammation.",
-      "Avocado contains healthy monounsaturated fats.",
-      "Blueberries are rich in antioxidants.",
-      "Regular exercise prevents dementia.",
-      "Olive oil reduces inflammation.",
-      "Bone broth supports joint health.",
-      "Vitamin C strengthens the immune system.",
-      "Apple cider vinegar helps regulate blood sugar.",
-      "Eating slowly improves digestion.",
-      "Proper hydration reduces headaches.",
-      "Eating before 8 PM aids digestion.",
-      "Yoga promotes relaxation and flexibility.",
-      "Avoiding trans fats improves cholesterol.",
-      "Spending time in nature reduces stress.",
-      "Fermented foods support a healthy microbiome.",
-      "Cinnamon helps regulate blood sugar.",
-      "Nuts like almonds improve heart health.",
-      "Matcha tea boosts metabolism.",
-      "Garlic has antibacterial properties.",
-      "Stretching before bed enhances sleep quality.",
-      "Vitamin D supports strong bones.",
-      "Whole fruits provide natural fiber.",
-      "Dark leafy greens like kale are nutrient-rich.",
-      "A gratitude journal improves mental health.",
-      "Handwashing prevents disease spread.",
-      "Green tea is rich in antioxidants.",
-      "Regular laughter boosts the immune system.",
-      "Aloe vera soothes burns and skin irritation.",
-      "Practicing mindfulness reduces anxiety.",
-      "Carrots improve vision with beta-carotene.",
-      "Avoiding screens before bed enhances sleep.",
-      "Chia seeds are rich in omega-3s and fiber.",
-      "Maintaining a healthy weight reduces chronic disease risk.",
-      "Eating a rainbow of fruits ensures diverse nutrients.",
-      "Proper posture prevents back and neck pain.",
-      "Avoiding processed foods improves overall health.",
-      "Spices like turmeric reduce inflammation.",
-      "Adequate protein intake repairs muscles.",
-      "Hydration improves skin health.",
-      "Social connection improves happiness.",
-      "Chewing food thoroughly aids digestion.",
-      "Intermittent fasting improves insulin sensitivity.",
-      "Vitamin E supports healthy skin.",
-      "Avoiding alcohol protects liver health.",
-      "Grapefruit lowers blood pressure.",
-      "Pumpkin seeds support immunity.",
-      "Fasting aids detoxification.",
-      "Eating fish supports heart health.",
-      "Cold showers improve circulation.",
-      "Massage reduces muscle tension.",
-      "Spending time with pets reduces stress.",
-      "Avoiding fried foods lowers cholesterol.",
-      "Listening to music improves mood.",
-      "Cooking at home ensures healthier meals.",
-      "Eating breakfast boosts metabolism.",
-      "Drinking herbal teas supports relaxation.",
-      "Eating smaller meals stabilizes blood sugar.",
-      "Cranberries support urinary tract health.",
-      "Avoiding artificial sweeteners protects gut health.",
-      "Eating seaweed provides iodine.",
-      "Regular journaling clarifies thoughts.",
-      "Daily stretching prevents stiffness.",
-      "Focusing on gratitude reduces stress.",
-      "Spicy foods boost metabolism.",
-      "Probiotic supplements improve digestion.",
-      "Apple peel contains fiber and antioxidants.",
-      "Sleeping on your back prevents wrinkles.",
-      "Walking barefoot improves balance.",
-      "Vitamin A supports vision and skin health.",
-      "Fresh air improves lung function.",
-      "Eating seeds supports bone health.",
-      "Steam inhalation clears sinuses.",
-      "Regular eye exams prevent vision loss.",
-      "Meditating outdoors boosts creativity.",
-      "Avoiding late-night snacks improves digestion.",
-      "Massage therapy alleviates chronic pain.",
-      "Coconut water restores electrolytes.",
-      "Dark grapes reduce inflammation.",
-      "Clean environments improve productivity.",
-      "Potassium-rich foods prevent muscle cramps.",
-      "Herbal baths promote relaxation.",
-      "Elderberries boost immunity.",
-      "Activated charcoal aids detox.",
-    ];
-
-    function generateFact() {
-      const randomIndex = Math.floor(Math.random() * healthFacts.length);
-      document.getElementById("fact-box").textContent = healthFacts[randomIndex];
-    }
-  </script>
-</body>
-</html>
-
-    <!-- Affirmations -->
-    <div class="section">
-      <h2>Affirmations Generator</h2>
-      <input type="text" id="name-input" placeholder="Enter your name">
-      <button onclick="generateAffirmation()">Generate Affirmation</button>
-      <p id="affirmation-output">Your affirmation will appear here.</p>
-    </div>
+    <!-- Diamond Shapes -->
+    <div class="diamond" style="top: 15%; left: 20%;"></div>
+    <div class="diamond" style="top: 25%; left: 30%;"></div>
+    <div class="diamond" style="top: 35%; left: 40%;"></div>
+    <div class="diamond" style="top: 45%; left: 50%;"></div>
+    <div class="diamond" style="top: 55%; left: 60%;"></div>
+    <div class="diamond" style="top: 65%; left: 70%;"></div>
   </div>
 
+  <!-- Main Content -->
+  <div class="dynamic-content">
+    <h1>Fullfeelment App</h1>
+  </div>
+
+  <!-- Footer -->
   <footer>
-    <p>Made by <a href="https://eatsleepbreathesuccess.com" target="_blank">EatSleepBreatheSuccess.com</a></p>
+    Made by <a href="https://eatsleepbreathesuccess.com" target="_blank">EatSleepBreatheSuccess.com</a>
   </footer>
-
-  <script>
-    // Interactive Globe
-    function initWorldClock() {
-      const scene = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, 1, 0.1, 1000);
-      const renderer = new THREE.WebGLRenderer();
-      renderer.setSize(300, 300);
-      document.getElementById("world-clock-globe").appendChild(renderer.domElement);
-
-      const geometry = new THREE.SphereGeometry(1, 32, 32);
-      const material = new THREE.MeshBasicMaterial({
-        map: new THREE.TextureLoader().load('https://i.imgur.com/Nzry1.jpg') // World map texture
-      });
-      const globe = new THREE.Mesh(geometry, material);
-      scene.add(globe);
-
-      camera.position.z = 3;
-      // Health Facts Generator
-      const healthFacts = [
-        "Drink water to stay hydrated.",
-        "Walking daily improves cardiovascular health.",
-        "Leafy greens provide essential nutrients.",
-        // Add the remaining 97 health facts here
-      ];
-
-      function generateFact() {
-        const randomIndex = Math.floor(Math.random() * healthFacts.length);
-        document.getElementById("fact-box").textContent = healthFacts[randomIndex];
-      }
-
-      // Horoscope Generator
-      const horoscopes = {
-        Aries: ["Today is a great day to start something new.", "Take risks and believe in yourself.", /* Add more */],
-        Taurus: ["Focus on stability and relationships.", "A calm approach will yield results.", /* Add more */],
-        Gemini: ["Communication will bring you clarity.", "An unexpected opportunity is coming.", /* Add more */],
-        // Add horoscopes for all signs with 100 entries each
-      };
-
-      function generateHoroscope() {
-        const sign = document.getElementById("sun-sign").value;
-        if (horoscopes[sign]) {
-          const randomIndex = Math.floor(Math.random() * horoscopes[sign].length);
-          document.getElementById("horoscope-output").textContent = horoscopes[sign][randomIndex];
-        } else {
-          document.getElementById("horoscope-output").textContent = "Please select a sun sign.";
-        }
-      }
-
-      // Affirmations Generator
-      const affirmations = [
-        "You are capable of achieving greatness.",
-        "Every day is a new opportunity to grow.",
-        "Believe in yourself and all that you are.",
-        // Add the remaining 97 affirmations here
-      ];
-
-      function generateAffirmation() {
-        const name = document.getElementById("name-input").value || "You";
-        const randomIndex = Math.floor(Math.random() * affirmations.length);
-        document.getElementById("affirmation-output").textContent = `${name}, ${affirmations[randomIndex]}`;
-      }
-
-      // Moon Phase
-      function updateMoonPhase() {
-        const moonPhases = [
-          { phase: "New Moon", color: "darkgray" },
-          { phase: "First Quarter", color: "lightgray" },
-          { phase: "Full Moon", color: "white" },
-          { phase: "Last Quarter", color: "silver" },
-        ];
-        const phaseIndex = new Date().getDate() % moonPhases.length;
-        const moon = moonPhases[phaseIndex];
-
-        document.getElementById("ai-moon").style.background = moon.color;
-        document.getElementById("moon-phase-name").innerText = moon.phase;
-      }
-      updateMoonPhase();
-
-      // Local Weather
-      function updateWeather() {
-        navigator.geolocation.getCurrentPosition(position => {
-          const { latitude, longitude } = position.coords;
-          document.getElementById("local-weather").innerText = `Your location: Latitude ${latitude}, Longitude ${longitude}.`;
-        });
-      }
-      updateWeather();
-    }
-    initWorldClock();
-  </script>
 </body>
 </html>
-     
