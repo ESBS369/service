@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fullfeelment App</title>
   <style>
-    /* General Styles */
     body {
       margin: 0;
       font-family: 'Arial', sans-serif;
@@ -186,7 +185,6 @@
     <p>Made by <a href="https://eatsleepbreathesuccess.com" target="_blank">EatSleepBreatheSuccess.com</a></p>
   </footer>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
   <script>
     // Interactive Globe
     function initWorldClock() {
@@ -205,40 +203,4 @@
 
       camera.position.z = 3;
 
-      const controls = new THREE.OrbitControls(camera, renderer.domElement);
-
-      function animate() {
-        requestAnimationFrame(animate);
-        renderer.render(scene, camera);
-      }
-      animate();
-    }
-    initWorldClock();
-
-    // Moon Phase
-    function updateMoonPhase() {
-      const moonPhases = [
-        { phase: "New Moon", color: "darkgray" },
-        { phase: "First Quarter", color: "lightgray" },
-        { phase: "Full Moon", color: "white" },
-        { phase: "Last Quarter", color: "silver" }
-      ];
-      const phaseIndex = new Date().getDate() % moonPhases.length;
-      const moon = moonPhases[phaseIndex];
-
-      document.getElementById("ai-moon").style.background = moon.color;
-      document.getElementById("moon-phase-name").innerText = moon.phase;
-    }
-    updateMoonPhase();
-
-    // Local Weather
-    function updateWeather() {
-      navigator.geolocation.getCurrentPosition(position => {
-        const { latitude, longitude } = position.coords;
-        document.getElementById("local-weather").innerText = `Latitude: ${latitude}, Longitude: ${longitude}`;
-      });
-    }
-    updateWeather();
-  </script>
-</body>
-</html>
+     
