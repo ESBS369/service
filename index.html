@@ -57,6 +57,33 @@
       text-decoration: underline;
     }
 
+    .moon-phase-container {
+      position: absolute;
+      top: 10%;
+      left: 50%;
+      transform: translate(-50%, 0);
+      width: 400px;
+      padding: 20px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+      z-index: 2;
+    }
+
+    .moon-phase {
+      font-size: 1.2em;
+      margin-bottom: 15px;
+    }
+
+    #timeZoneSelect {
+      padding: 10px;
+      font-size: 1em;
+      border: none;
+      border-radius: 5px;
+      margin-top: 10px;
+    }
+
     .affirmation-container {
       position: absolute;
       top: 50%;
@@ -96,10 +123,26 @@
 <body>
   <h1>Fullfeelment App</h1>
   <canvas id="nightSky"></canvas>
+
+  <!-- Moon Phase and Date Section -->
+  <div class="moon-phase-container">
+    <div id="dateDisplay" class="moon-phase">Loading date...</div>
+    <div id="moonPhaseDisplay" class="moon-phase">Loading moon phase...</div>
+    <select id="timeZoneSelect">
+      <option value="local">Local Time</option>
+      <option value="UTC">UTC</option>
+      <option value="EST">Eastern Time (EST)</option>
+      <option value="PST">Pacific Time (PST)</option>
+      <!-- Add more time zones as needed -->
+    </select>
+  </div>
+
+  <!-- Affirmation Generator Section -->
   <div class="affirmation-container">
     <div class="affirmation" id="affirmationDisplay">Press the button to generate an affirmation!</div>
     <button id="generateButton">Generate Affirmation</button>
   </div>
+
   <div class="footer">Made by <a href="https://eatsleepbreathesuccess.com" target="_blank">EatSleepBreatheSuccess.com</a></div>
 
   <script>
@@ -110,168 +153,84 @@
 
     const affirmations = [
       "I am worthy of success and happiness.",
-      "I am in control of my life and destiny.",
-      "I choose to focus on positivity and gratitude.",
-      "I am capable of achieving my goals.",
-      "I am confident and radiant in all that I do.",
-      "I deserve peace, love, and joy in my life.",
-      "I am constantly growing and evolving.",
-      "I embrace change with open arms.",
-      "I trust in the process of life.",
-      "I have everything I need to succeed.",
-      "I am calm, centered, and in control.",
-      "I am grateful for every experience and lesson.",
+      "Every day, in every way, I am getting better and better.",
       "I attract abundance and prosperity effortlessly.",
-      "I am resilient, resourceful, and strong.",
-      "I am surrounded by love and support.",
-      "I am a magnet for success and happiness.",
-      "I let go of fear and doubt, embracing courage.",
-      "I am aligned with my highest purpose.",
-      "I radiate positivity and attract great things.",
-      "I trust in my ability to overcome challenges.",
-      // Add more affirmations as needed
+      // Add more affirmations...
     ];
 
     const stars = [];
-    const diamonds = [];
-    const lines = [];
     const colors = ['#FF5733', '#33FF57', '#3357FF', '#F333FF', '#33FFF5', '#FFC300'];
 
     function random(min, max) {
       return Math.random() * (max - min) + min;
     }
 
-    class RotatingNumber {
-      constructor(x, y, size, value, color) {
+    class Star {
+      constructor(x, y, size) {
         this.x = x;
         this.y = y;
         this.size = size;
-        this.value = value;
-        this.color = color;
-        this.angle = 0;
       }
 
       draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
-        ctx.rotate(this.angle);
-        ctx.font = `${this.size}px Arial`;
-        ctx.fillStyle = this.color;
-        ctx.fillText(this.value, 0, 0);
-        ctx.restore();
-      }
-
-      update() {
-        this.angle += 0.01;
-      }
-    }
-
-    class Diamond {
-      constructor(x, y, size, color) {
-        this.x = x;
-        this.y = y;
-        this.size = size;
-        this.color = color;
-        this.opacity = 0;
-        this.direction = 1;
-      }
-
-      draw() {
-        ctx.save();
-        ctx.translate(this.x, this.y);
         ctx.beginPath();
-        ctx.moveTo(0, -this.size / 2);
-        ctx.lineTo(this.size / 2, 0);
-        ctx.lineTo(0, this.size / 2);
-        ctx.lineTo(-this.size / 2, 0);
-        ctx.closePath();
-        ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = colors[Math.floor(Math.random() * colors.length)];
         ctx.fill();
-        ctx.restore();
       }
-
-      update() {
-        this.opacity += 0.02 * this.direction;
-        if (this.opacity > 1 || this.opacity < 0) {
-          this.direction *= -1;
-        }
-      }
-    }
-
-    function connectPoints(pointA, pointB) {
-      ctx.strokeStyle = `rgba(255, 255, 255, 0.2)`;
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.moveTo(pointA.x, pointA.y);
-      ctx.lineTo(pointB.x, pointB.y);
-      ctx.stroke();
     }
 
     function initElements() {
-      for (let i = 0; i < 100; i++) {
+      for (let i = 0; i < 200; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
-        const size = random(14, 20);
-        const value = [3, 6, 9][Math.floor(Math.random() * 3)];
-        const color = colors[Math.floor(Math.random() * colors.length)];
-        stars.push(new RotatingNumber(x, y, size, value, color));
-      }
-
-      for (let i = 0; i < 50; i++) {
-        const x = random(0, canvas.width);
-        const y = random(0, canvas.height);
-        const size = random(8, 12);
-        diamonds.push(new Diamond(x, y, size, "#ffffff"));
-      }
-
-      for (let i = 0; i < stars.length - 1; i++) {
-        const pointA = stars[i];
-        const pointB = stars[i + 1];
-        lines.push({ pointA, pointB });
+        const size = random(0.5, 2);
+        stars.push(new Star(x, y, size));
       }
     }
 
-    function animate() {
+    function animateElements() {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      stars.forEach((star) => {
-        star.update();
-        star.draw();
-      });
-
-      diamonds.forEach((diamond) => {
-        diamond.update();
-        diamond.draw();
-      });
-
-      lines.forEach(({ pointA, pointB }) => {
-        connectPoints(pointA, pointB);
-      });
-
-      requestAnimationFrame(animate);
+      stars.forEach((star) => star.draw());
+      requestAnimationFrame(animateElements);
     }
 
-    function generateAffirmation() {
-      const affirmationDisplay = document.getElementById('affirmationDisplay');
-      const randomIndex = Math.floor(Math.random() * affirmations.length);
-      affirmationDisplay.textContent = affirmations[randomIndex];
-      affirmationDisplay.style.color = colors[Math.floor(Math.random() * colors.length)];
+    // Set Date and Moon Phase
+    function updateDateAndMoonPhase() {
+      const dateDisplay = document.getElementById('dateDisplay');
+      const moonPhaseDisplay = document.getElementById('moonPhaseDisplay');
+
+      // Update date
+      const date = new Date();
+      dateDisplay.textContent = `Today: ${date.toLocaleDateString()} (${date.toLocaleTimeString()})`;
+
+      // Update moon phase
+      const moonPhases = ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"];
+      const daysIntoCycle = Math.floor((date - new Date('2024-01-06')) / (1000 * 60 * 60 * 24)) % 29; // Reference full moon date
+      const moonPhaseIndex = Math.floor(daysIntoCycle / (29 / moonPhases.length));
+      moonPhaseDisplay.textContent = `Moon Phase: ${moonPhases[moonPhaseIndex]}`;
     }
 
-    window.addEventListener('resize', () => {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      stars.length = 0;
-      diamonds.length = 0;
-      lines.length = 0;
-      initElements();
+    // Handle Time Zone Selection
+    const timeZoneSelect = document.getElementById('timeZoneSelect');
+    timeZoneSelect.addEventListener('change', () => {
+      const selectedZone = timeZoneSelect.value;
+      const dateDisplay = document.getElementById('dateDisplay');
+      const date = new Date();
+
+      const options = {
+        timeZone: selectedZone === 'local' ? undefined : selectedZone,
+        timeZoneName: 'short'
+      };
+
+      dateDisplay.textContent = `Today: ${date.toLocaleDateString('en-US', options)} (${date.toLocaleTimeString('en-US', options)})`;
     });
 
+    // Initialize and animate
     initElements();
-    animate();
-
-    const generateButton = document.getElementById('generateButton');
-    generateButton.addEventListener('click', generateAffirmation);
+    animateElements();
+    updateDateAndMoonPhase();
+    setInterval(updateDateAndMoonPhase, 60000); // Update every minute
   </script>
 </body>
 </html>
