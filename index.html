@@ -59,9 +59,9 @@
 
     .moon-phase-container {
       position: absolute;
-      top: 10%;
+      top: 80px; /* Ensures it appears below the app title */
       left: 50%;
-      transform: translate(-50%, 0);
+      transform: translateX(-50%);
       width: 400px;
       padding: 20px;
       background: rgba(0, 0, 0, 0.7);
@@ -181,7 +181,7 @@
     }
 
     function initElements() {
-      for (let i = 0; i < 200; i++) {
+           for (let i = 0; i < 200; i++) {
         const x = random(0, canvas.width);
         const y = random(0, canvas.height);
         const size = random(0.5, 2);
@@ -205,7 +205,16 @@
       dateDisplay.textContent = `Today: ${date.toLocaleDateString()} (${date.toLocaleTimeString()})`;
 
       // Update moon phase
-      const moonPhases = ["New Moon", "Waxing Crescent", "First Quarter", "Waxing Gibbous", "Full Moon", "Waning Gibbous", "Last Quarter", "Waning Crescent"];
+      const moonPhases = [
+        "New Moon",
+        "Waxing Crescent",
+        "First Quarter",
+        "Waxing Gibbous",
+        "Full Moon",
+        "Waning Gibbous",
+        "Last Quarter",
+        "Waning Crescent"
+      ];
       const daysIntoCycle = Math.floor((date - new Date('2024-01-06')) / (1000 * 60 * 60 * 24)) % 29; // Reference full moon date
       const moonPhaseIndex = Math.floor(daysIntoCycle / (29 / moonPhases.length));
       moonPhaseDisplay.textContent = `Moon Phase: ${moonPhases[moonPhaseIndex]}`;
